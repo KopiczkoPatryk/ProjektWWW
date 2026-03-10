@@ -1,0 +1,42 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+}
+
+header {
+  background: white;
+  color: black;
+  border-color: chocolate;
+  border-bottom-style: solid;
+  border-radius: 15px;
+  padding: 15px;
+}
+
+form {
+  
+  float: right;
+  margin-right: 15px; 
+}
+
+img {
+  float: left;
+  margin-left: 15px;  
+}
+
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+main {
+  background: white;
+  color: black;
+  padding: 15px;
+}
+
+footer {
+  background: sienna;
+  color: black;
+  padding: 10px;
+}
