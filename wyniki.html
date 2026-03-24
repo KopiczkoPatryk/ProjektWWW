@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Wyniki wyszukiwania</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="glowne-menu">
+        <div class="kontener">
+            <div class="logo">
+                <a href="index.html"><img src="Logo.png" alt="Logo"></a>
+            </div>
+            <form action="wyniki.html" method="GET" class="wyszukiwarka">
+                <input type="text" name="q" placeholder="Czego szukasz?">
+                <button type="submit">SZUKAJ</button>
+            </form>
+            <nav class="ikony-nawigacji">
+                <a href="ulubione.html" class="przycisk-ikona">
+                    <i class="fa-solid fa-heart"></i>
+                    <span id="licznik-ulubionych" class="licznik">0</span>
+                </a>
+                <div class="menu-uzytkownika">
+                    <span>Patryk <i class="fa-solid fa-chevron-down"></i></span>
+                    <div class="rozwijane-menu">
+                        <button id="przycisk-motywu" class="element-menu">Zmień motyw</button>
+                        <a href="#" class="element-menu">Mój profil</a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main id="widok-szukania" class="kontener">
+        <h1 id="napis-wynikow" style="margin-top: 40px;">Szukanie...</h1>
+        <div id="miejsce-na-produkty" class="lista-ofert"></div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
