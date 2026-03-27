@@ -2,25 +2,36 @@
     --glowny-jasny: #094089;
     --glowny-ciemny: #043179;
     --tekst-glowny: #ffffff;
+    --glowny-jasniejszy: #0d5bc0;
 }
 
 body{
     margin: 0;
-    color: var(--tekst-glowny);
     font-family: 'Inter', sans-serif;
+    color: var(--tekst-glowny);
 }
+
+.naglowek {
+    color: black;
+    padding: 50px 0 0 200px;
+    font-family: 'Rajdhani', sans-serif;
+}
+
 .glowny-header{
+    
     position: sticky;
     top: 0;
     z-index: 1000;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
+
 .pasek-gorny{
     background-color: var(--glowny-jasny);
     display: flex;
     padding: 10px 20px;
     border-bottom: 2px solid black;
 }
+
 .pasek-dolny{
     background-color: var(--glowny-ciemny);
     border-radius: 0px 0px 15px 15px;
@@ -50,8 +61,6 @@ body{
     opacity: 0.8;          
 }
 
-
-
 .wyszukiwarka{
     flex-grow: 1;
     margin: 0 30px;
@@ -60,13 +69,23 @@ body{
     border-radius: 20px;
     border: 1px solid var(--tekst-glowny);
 }
+
 .wyszukiwarka input {
     padding: 17px 10px;
+    color: #ffffff;
     border:0;
     width: 100%;
     background: transparent;
     font-weight: bold;
     outline: none;
+    border-radius: 20px 0 0 20px;
+    transition: 0.3s ease;
+}
+
+.wyszukiwarka input:focus {
+    color: black;
+    background-color: #ffffff;
+    border-radius: 20px 0 0 20px;
 }
 
 .wyszukiwarka button {
@@ -76,13 +95,17 @@ body{
     padding: 0 20px;
     font-weight: bold;
     cursor: pointer;
-    border-radius: 20px;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    border-radius: 0 20px 20px 0;
+    transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
 .wyszukiwarka button:hover {
-    background-color: var(--tekst-glowny);
-    color: black;
+    background-color: var(--glowny-jasniejszy);
+    transform: scale(1.05);
+}
+
+.wyszukiwarka button:active {
+    transform: scale(1.02)
 }
 
 .kafelki ul{
@@ -96,17 +119,15 @@ body{
 .kafelki a {
     color: var(--tekst-glowny);
     text-decoration: none;
-    padding: 20px;
+    padding: 10px 20px 10px 20px;
     display: block;
     text-align: center;
-    transition: opacity 0.3s;
+    border-radius: 12px 12px 12px 12px;
+    transition: background-color 0.3s ease;
 }
 
 .kafelki a:hover {
-    border-radius: 15px 15px 15px 15px;
-    background-color: var(--glowny-jasny);
-    opacity: 0.8;
-    
+    background-color: var(--glowny-jasniejszy);
 }
 
 .kafelki li {
