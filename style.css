@@ -9,6 +9,7 @@ body{
     margin: 0;
     font-family: 'Inter', sans-serif;
     color: var(--tekst-glowny);
+    min-height: 100vh;
 }
 
 .naglowek {
@@ -58,7 +59,7 @@ body{
 }
 
 .przekierowanie-mainpage:hover .logo-img {
-    opacity: 0.8;          
+    opacity: 0.6;          
 }
 
 .wyszukiwarka{
@@ -108,6 +109,19 @@ body{
     transform: scale(1.02)
 }
 
+.konto-menu a{
+    color: var(--tekst-glowny);
+    text-decoration: none;
+    border: 1px solid var(--tekst-glowny);
+    border-radius: 25px;
+    padding: 15px;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.konto-menu a:hover {
+    background-color: var(--glowny-jasniejszy);
+}
+
 .kafelki ul{
     list-style: none;
     background-color: var(--glowny-ciemny);
@@ -132,4 +146,13 @@ body{
 
 .kafelki li {
     float: left;
+}
+
+.stopka {
+    position: static;
+    background-color: var(--glowny-jasny);
+    border-radius: ;
+    border-radius: 15px 15px 0 0;
+    padding: 20px;
+    color: var(--tekst-glowny)
 }
