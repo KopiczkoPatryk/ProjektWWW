@@ -7,6 +7,7 @@
 body{
     margin: 0;
     color: var(--tekst-glowny);
+    font-family: 'Inter', sans-serif;
 }
 .glowny-header{
     position: sticky;
@@ -22,7 +23,8 @@ body{
 }
 .pasek-dolny{
     background-color: var(--glowny-ciemny);
-    font-size: 1.5rem;
+    border-radius: 0px 0px 15px 15px;
+    font-size: 1.1rem;
 }
 
 .kontener{
@@ -39,6 +41,8 @@ body{
     flex-grow: 1;
     margin: 0 30px;
     display: flex;
+    border: 5px;
+    border-radius: 20px;
     border: 1px solid var(--tekst-glowny);
 }
 .wyszukiwarka input {
@@ -59,12 +63,35 @@ body{
     cursor: pointer;
 }
 
-.kafelki{
-    display:flex;
-    width:100%;
+.wyszukiwarka button:hover {
+    background-color: var(--tekst-glowny);
+    color: black;
+    transition: background-color 20ms;
+    border-radius: 20px;
 }
-.kafelki span{
-    padding: 20px 20px;
-    flex:1;
+
+.kafelki ul{
+    list-style: none;
+    background-color: var(--glowny-ciemny);
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+}
+
+.kafelki a {
+    color: var(--tekst-glowny);
+    text-decoration: none;
+    padding: 20px;
+    display: block;
     text-align: center;
+
+}
+
+.kafelki a:hover {
+    border-radius: 15px 15px 15px 15px;
+    background-color: var(--glowny-jasny);
+}
+
+.kafelki li {
+    float: left;
 }
