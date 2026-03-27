@@ -19,12 +19,12 @@ body{
     background-color: var(--glowny-jasny);
     display: flex;
     padding: 10px 20px;
-    border-bottom: 1px solid black;
+    border-bottom: 2px solid black;
 }
 .pasek-dolny{
     background-color: var(--glowny-ciemny);
     border-radius: 0px 0px 15px 15px;
-    font-size: 1.1rem;
+    font-size: 1.3rem;
 }
 
 .kontener{
@@ -37,6 +37,21 @@ body{
     gap: 20px;
 }
 
+.przekierowanie-mainpage {
+    display: inline block;
+    line-height: 0;
+}
+
+.logo-img {
+    transition: opacity 0.3s;
+}
+
+.przekierowanie-mainpage:hover .logo-img {
+    opacity: 0.8;          
+}
+
+
+
 .wyszukiwarka{
     flex-grow: 1;
     margin: 0 30px;
@@ -46,7 +61,7 @@ body{
     border: 1px solid var(--tekst-glowny);
 }
 .wyszukiwarka input {
-    padding: 10px 10px;
+    padding: 17px 10px;
     border:0;
     width: 100%;
     background: transparent;
@@ -61,13 +76,13 @@ body{
     padding: 0 20px;
     font-weight: bold;
     cursor: pointer;
+    border-radius: 20px;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .wyszukiwarka button:hover {
     background-color: var(--tekst-glowny);
     color: black;
-    transition: background-color 20ms;
-    border-radius: 20px;
 }
 
 .kafelki ul{
@@ -84,12 +99,14 @@ body{
     padding: 20px;
     display: block;
     text-align: center;
-
+    transition: opacity 0.3s;
 }
 
 .kafelki a:hover {
     border-radius: 15px 15px 15px 15px;
     background-color: var(--glowny-jasny);
+    opacity: 0.8;
+    
 }
 
 .kafelki li {
