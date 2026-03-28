@@ -7,6 +7,8 @@
 
 body{
     margin: 0;
+    display: flex;
+    flex-direction: column;
     font-family: 'Inter', sans-serif;
     color: var(--tekst-glowny);
     min-height: 100vh;
@@ -14,16 +16,17 @@ body{
 
 .naglowek {
     color: black;
-    padding: 50px 0 0 200px;
+    flex: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 50px 0 0 20px;
     font-family: 'Rajdhani', sans-serif;
 }
 
 .glowny-header{
-    
     position: sticky;
     top: 0;
     z-index: 1000;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
 .pasek-gorny{
@@ -109,23 +112,79 @@ body{
     transform: scale(1.02)
 }
 
-.konto-menu a{
+.konto-menu {
+    display: inline-block;
+    position: relative;
+}
+
+.konto-menu button{
     color: var(--tekst-glowny);
+    background-color: var(--glowny-jasny);
     text-decoration: none;
+    cursor: pointer;
     border: 1px solid var(--tekst-glowny);
     border-radius: 25px;
     padding: 15px;
-    transition: background-color 0.2s ease, transform 0.2s ease;
+    transition: background-color 0.2s ease, border-radius 0.3s ease;
+}
+
+.konto-menu button:hover {
+    background-color: var(--glowny-jasniejszy);
+}
+
+.konto-menu a {
+    display: block;
+    color: var(--tekst-glowny);
+    text-decoration: none; 
+    padding: 15px;
+    border-radius: 15px;
+    transition: background-color 0.3s ease;
+}
+
+.konto-menu .rozwijane-menu{
+    position: absolute;
+    top: 100%;
+    right: 0;
+    
+    border: 1px solid var(--tekst-glowny);
+    background-color: var(--glowny-jasny);
+    border-radius: 15px;
+    min-width: 160px;
+    padding: 5px;
+    margin-top: 10px;
+    
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+    z-index: 100;
+}
+
+.konto-menu .rozwijane-menu a {
+    white-space: nowrap;
+}
+
+.konto-menu:hover .rozwijane-menu {
+    opacity: 1;
+    visibility: visible;
+    box-shadow: rgba(0, 0, 0, 0.5);
+    transform: translateY(0);
+
 }
 
 .konto-menu a:hover {
     background-color: var(--glowny-jasniejszy);
 }
 
+
 .kafelki ul{
     list-style: none;
     background-color: var(--glowny-ciemny);
-    padding: 0;
+    display: flex;
+    justify-content: center;
+    padding: 10px 0;
     margin: 0;
     overflow: hidden;
 }
@@ -149,10 +208,8 @@ body{
 }
 
 .stopka {
-    position: static;
+    text-align: center;
     background-color: var(--glowny-jasny);
-    border-radius: ;
     border-radius: 15px 15px 0 0;
     padding: 20px;
-    color: var(--tekst-glowny)
 }
