@@ -16,11 +16,13 @@ body{
 
 .naglowek {
     color: black;
-    flex: 1;
+    flex: 1 0 auto;
+    width: 100%;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 50px 0 0 20px;
+    padding: 50px 20px;
     font-family: 'Rajdhani', sans-serif;
+    box-sizing: border-box;
 }
 
 .glowny-header{
@@ -212,4 +214,68 @@ body{
     background-color: var(--glowny-jasny);
     border-radius: 15px 15px 0 0;
     padding: 20px;
+    margin-top: auto;
+}
+
+@media (max-width: 320px) {
+    .pasek-gorny .kontener {
+        flex-wrap: wrap; 
+        justify-content: space-between; 
+    }
+
+    .logo-img {
+        transition: opacity 0.3s;
+        width: 60px;
+        height: auto;
+    }
+
+    .przekierowanie-mainpage {
+        order: 1; 
+    }
+
+    .konto-menu {
+        order: 2; 
+    }
+
+    .wyszukiwarka {
+        order: 3; 
+        width: 100%; 
+        margin: 15px 0 5px 0; 
+    }
+    
+    .wyszukiwarka input {
+        padding: 12px 10px; 
+    }
+
+    .kafelki span {
+        display: none;
+    }
+
+    .kafelki ul {
+        display: flex;
+        justify-content: space-around; 
+        padding: 10px 0;
+    }
+
+    .kafelki li {
+        float: none; 
+        width: auto;
+    }
+
+    .kafelki a {
+        padding: 10px 15px;
+        font-size: 1.5rem;
+    }
+
+}
+
+@media (min-width: 2500px) {
+    .kontener, .naglowek {
+        max-width: 1800;
+    }
+
+    :root {
+        font-size: 20px;
+    }
+
 }
