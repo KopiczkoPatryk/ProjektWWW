@@ -1,7 +1,14 @@
 * {
     box-sizing: border-box;
 }
-:root{
+html, body {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; /* To utnie biały/ciemny pasek po prawej */
+}
+
+:root {
     --glowny-jasny: #094089;
     --glowny-ciemny: #043179;
     --tekst-glowny: #ffffff;
@@ -9,7 +16,7 @@
     --tlo-default: #14021c;
 }
 
-body{
+body {
     margin: 0;
     display: flex;
     flex-direction: column;
@@ -20,59 +27,61 @@ body{
 }
 
 .naglowek {
-    flex: 1;
     max-width: 1200px;
     margin: 0 auto;
     padding: 50px 0 0 20px;
     font-family: 'Rajdhani', sans-serif;
 }
 
-.glowny-header{
+.glowny-header {
     position: sticky;
     top: 0;
     z-index: 1000;
 }
 
-.pasek-gorny{
+.pasek-gorny {
     background-color: var(--glowny-jasny);
     display: flex;
     padding: 10px 20px;
     border-bottom: 2px solid black;
 }
 
-.pasek-dolny{
+.pasek-dolny {
     background-color: var(--glowny-ciemny);
     font-size: 1.3rem;
 }
 
-.kontener{
+.kontener {
     width: 100%;
     display: flex;
     margin: 0 auto;
     max-width: 1200px;
-    align-items:center;
+    align-items: center;
     padding: 0 15px;
     gap: 20px;
+    justify-content: center
 }
 
 .przekierowanie-mainpage {
-    display: inline block;
+    display: inline-block;
     line-height: 0;
 }
 
 .logo-img {
     transition: opacity 0.3s;
 }
+.logo{
+    width: 100%;
+}
 
 .przekierowanie-mainpage:hover .logo-img {
     opacity: 0.6;          
 }
 
-.wyszukiwarka{
+.wyszukiwarka {
     flex-grow: 1;
-    margin: 0 30px;
+    margin: 0 auto;
     display: flex;
-    border: 5px;
     border-radius: 20px;
     border: 1px solid var(--tekst-glowny);
 }
@@ -80,7 +89,7 @@ body{
 .wyszukiwarka input {
     padding: 17px 10px;
     color: #ffffff;
-    border:0;
+    border: 0;
     width: 100%;
     background: transparent;
     font-weight: bold;
@@ -97,7 +106,7 @@ body{
 
 .wyszukiwarka button {
     color: var(--tekst-glowny);
-    border:0;
+    border: 0;
     background: transparent;
     padding: 0 20px;
     font-weight: bold;
@@ -112,7 +121,7 @@ body{
 }
 
 .wyszukiwarka button:active {
-    transform: scale(1.02)
+    transform: scale(1.02);
 }
 
 .konto-menu {
@@ -120,7 +129,7 @@ body{
     position: relative;
 }
 
-.konto-menu button{
+.konto-menu button {
     color: var(--tekst-glowny);
     background-color: var(--glowny-jasny);
     text-decoration: none;
@@ -144,20 +153,17 @@ body{
     transition: background-color 0.3s ease;
 }
 
-.konto-menu .rozwijane-menu{
+.konto-menu .rozwijane-menu {
     position: absolute;
     top: 100%;
     right: 0;
-    
     border: 1px solid var(--tekst-glowny);
     background-color: var(--glowny-jasny);
     border-radius: 15px;
     min-width: 160px;
     padding: 5px;
     margin-top: 10px;
-    
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-
     opacity: 0;
     visibility: hidden;
     transform: translateY(-10px);
@@ -172,35 +178,35 @@ body{
 .konto-menu:hover .rozwijane-menu {
     opacity: 1;
     visibility: visible;
-    box-shadow: rgba(0, 0, 0, 0.5);
     transform: translateY(0);
-
 }
 
 .konto-menu a:hover {
     background-color: var(--glowny-jasniejszy);
 }
-
-
-.kafelki ul{
+.kafelki {
+    width:100%;
+    flex-grow: 1;
+}
+.kafelki ul {
     list-style: none;
     background-color: var(--glowny-ciemny);
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     padding: 10px 0;
     margin: 0;
-    overflow: hidden;
-    width: 100%;
 }
 
 .kafelki a {
     color: var(--tekst-glowny);
     text-decoration: none;
-    padding: 10px 20px 10px 20px;
+    padding: 10px 20px;
     display: block;
     text-align: center;
-    border-radius: 12px 12px 12px 12px;
+    border-radius: 12px;
     transition: background-color 0.3s ease;
+    white-space: nowrap;
 }
 
 .kafelki a:hover {
@@ -208,61 +214,103 @@ body{
 }
 
 .kafelki li {
-    float: left;
+    display: inline-block;
+    margin: 0 6px;
+    flex-grow: 1;
 }
+
 
 .stopka {
     text-align: center;
     background-color: var(--glowny-jasny);
     border-radius: 15px 15px 0 0;
     padding: 20px;
+    margin-top: auto;
 }
+
 .banery-reklamowe {
     display: flex;
-    height: auto;
+    margin: 0 auto;
 }
-.baner{
+
+.baner {
     flex: 1;
-    border-radius: 15px;
     box-shadow: 0px 0px 5px black;
+    overflow: hidden;
 }
-.baner img{
+
+.baner img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    height: 100%;
 }
+
 .baner:hover {
     transform: scale(1.02);
     cursor: pointer;
 }
+
 @media (min-width: 1024px) {
     .baner.duzy {
         flex: 3; 
     }
 }
+
+.jasna-kategoria {
+    background-color: var(--glowny-jasny);
+    width: 100%;
+}
+
+.ciemna-kategoria {
+    background-color: var(--glowny-ciemny);
+    width: 100%;
+}
+
 .kategoria {
+    max-width: 1200px;
+    margin: 0 auto;
     display: flex;
     flex-direction: column;
     gap: 20px;
-    margin: 40px 0;
+    padding: 40px 15px;
 }
-.produkty{
-    height: auto;
+
+.produkty {
     display: flex;
-    gap: 10%;
+    justify-content: center;
+    gap: 20px;
 }
-.produkt{
-    flex: 1;
-    object-fit:cover;
+
+.produkt {
+    flex: 0 1 210px;
+    text-align: center;
 }
-.produkt img{
+
+.produkt:hover {
+    transform: scale(1.02);
+    cursor: pointer;
+}
+
+.produkt img {
     height: 15rem;
-    object-fit:cover;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 10px;
 }
-.jasna-kategoria{
-    background-color: var(--glowny-jasny);
-}
-.ciemna-kategoria{
-    background-color: var(--glowny-ciemny);
+@media (max-width: 768px) {
+    .kafelki ul {
+        padding: 8px;
+        gap: 6px;
+    }
+    .kafelki a {
+        padding: 8px 10px;
+        font-size: 0.95rem;
+    }
+    .produkty {
+        flex-direction: column;
+        justify-content: center;
+    }
+    .produkt {
+        width: 100%;
+    }
 }
