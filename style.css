@@ -54,6 +54,7 @@ body {
 .kontener {
     width: 100%;
     display: flex;
+    flex-wrap: wrap;
     margin: 0 auto;
     max-width: 1200px;
     align-items: center;
@@ -301,6 +302,27 @@ body {
     border-radius: 10px;
 }
 @media (max-width: 768px) {
+    .glowny-header .pasek-gorny {
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    .logo {
+        order: 1;
+    }
+
+    .konto-menu {
+        order: 2;
+    }
+    
+    .wyszukiwarka {
+        width: 100%;
+        flex-basis: 100%;
+        margin: 0;
+        order: 3;
+    }
+    
+    
     .kafelki ul {
         padding: 8px;
         gap: 6px;
