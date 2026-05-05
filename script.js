@@ -61,3 +61,9 @@ function ZwrocOkladke(id) {
     let okladka = `https://cdn.akamai.steamstatic.com/steam/apps/${id}/library_600x900.jpg`;
     return okladka;
 }
+
+function test() {
+    let zmienna = 1234;
+    return zmienna;
+}
+
