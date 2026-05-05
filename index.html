@@ -1,28 +1,33 @@
 <!DOCTYPE html>
 <html lang="pl">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="logo.png">
     <title>GameStation</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Montserrat:wght@600&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Montserrat:wght@600&family=Rajdhani:wght@500;700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
+
 <body>
     <header class="glowny-header">
         <div class="pasek-gorny">
             <div class="kontener">
-                
+
                 <a href="index.html" class="przekierowanie-mainpage">
-                    <img src="logo.png" href="index.html" width="80" height="80" alt="GameStation - Strona Główna" class="logo-img">
+                    <img src="logo.png" href="index.html" width="80" height="80" alt="GameStation - Strona Główna"
+                        class="logo-img">
                 </a>
                 <form class="wyszukiwarka">
                     <input type="text" placeholder="Wyszukaj..">
                     <button type="submit">Szukaj</button>
                 </form>
                 <div class="konto-menu">
-                    <Button>
+                    <Button id="PrzyciskUzytkownik">
                         <span>User1234</span>
                     </Button>
                     <div class="rozwijane-menu">
@@ -43,6 +48,11 @@
                             <span>NIE WCHODZIĆ</span>
                         </a>
                     </div>
+                </div>
+                <div class="konto-menu">
+                    <Button id="motyw-przycisk">
+                        <span>Motyw</span>
+                    </Button>
                 </div>
             </div>
         </div>
@@ -91,15 +101,15 @@
         </a>
         <a href="#" class="baner">
             <img src="baner3.jpg" alt="Baner 3">
-       </a>
+        </a>
         <a href="#" class="baner">
             <img src="baner4.jpg" alt="Baner 4">
         </a>
-         <a href="#" class="baner duzy">
+        <a href="#" class="baner duzy">
             <img src="baner1.png" alt="Baner 1">
         </a>
     </div>
-<div class="jasna-kategoria">
+    <div class="jasna-kategoria">
         <div class="kategoria">
             <h2>Polecane</h2>
             <div class="produkty">
@@ -128,40 +138,40 @@
                     <h3>Forza Horizon 5</h3>
                     <p class="cena">149,99 zł</p>
                 </div>
-                </div>
-            </div>
-        </div>
-    <div class="ciemna-kategoria">
-    <div class="kategoria">
-        <h2>Doładowania i Waluty</h2>
-        <div class="produkty">
-            <div class="produkt">
-                <img src="v-dolce.jpg" alt="V-Bucks">
-                <h3>1000 V-Dolców</h3>
-                <p class="cena">36,99 zł</p>
-            </div>
-            <div class="produkt">
-                <img src="robux.jpg" alt="Robux">
-                <h3>800 Robux</h3>
-                <p class="cena">45,00 zł</p>
-            </div>
-            <div class="produkt">
-                <img src="riot-points.jpg" alt="LoL RP">
-                <h3>575 Riot Points</h3>
-                <p class="cena">21,50 zł</p>
-            </div>
-            <div class="produkt">
-                <img src="steam-wallet.jpg" alt="Steam">
-                <h3>Steam 20 PLN</h3>
-                <p class="cena">20,00 zł</p>
-            </div>
-            <div class="produkt">
-                <img src="psn-card.jpg" alt="PSN">
-                <h3>Karta PSN 50 PLN</h3>
-                <p class="cena">50,00 zł</p>
             </div>
         </div>
     </div>
+    <div class="ciemna-kategoria">
+        <div class="kategoria">
+            <h2>Doładowania i Waluty</h2>
+            <div class="produkty">
+                <div class="produkt">
+                    <img src="v-dolce.jpg" alt="V-Bucks">
+                    <h3>1000 V-Dolców</h3>
+                    <p class="cena">36,99 zł</p>
+                </div>
+                <div class="produkt">
+                    <img src="robux.jpg" alt="Robux">
+                    <h3>800 Robux</h3>
+                    <p class="cena">45,00 zł</p>
+                </div>
+                <div class="produkt">
+                    <img src="riot-points.jpg" alt="LoL RP">
+                    <h3>575 Riot Points</h3>
+                    <p class="cena">21,50 zł</p>
+                </div>
+                <div class="produkt">
+                    <img src="steam-wallet.jpg" alt="Steam">
+                    <h3>Steam 20 PLN</h3>
+                    <p class="cena">20,00 zł</p>
+                </div>
+                <div class="produkt">
+                    <img src="psn-card.jpg" alt="PSN">
+                    <h3>Karta PSN 50 PLN</h3>
+                    <p class="cena">50,00 zł</p>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="kontener">
         <div class="naglowek">
@@ -173,4 +183,5 @@
     <footer class="stopka">
         Copyright © 2026 GameStation. Wszelkie prawa zastrzeżone.
     </footer>
+    <script src="script.js"></script>
 </body>

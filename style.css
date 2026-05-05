@@ -18,6 +18,11 @@ body {
     --tlo-default: #14021c;
 }
 
+.tryb-ciemny {
+    --glowny-jasny: rgb(38, 38, 38);
+    --glowny-ciemny: #161616;
+}
+
 body {
     margin: 0;
     display: flex;
