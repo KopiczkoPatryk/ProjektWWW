@@ -239,7 +239,6 @@ body {
 
 .banery-reklamowe {
     display: flex;
-    margin: 0 auto;
 }
 
 .baner {
@@ -330,6 +329,7 @@ body {
         margin: 0;
         order: 3;
     }
+
     .kafelki ul {
         padding: 8px;
         flex-wrap: nowrap;
@@ -340,10 +340,12 @@ body {
         padding: 8px 10px;
         font-size: 0.95rem;
     }
+
     .kafelki span {
         display: none;
     }
-    .kafelki a:hover span{
+
+    .kafelki a:hover span {
         transition: transform 0.2s ease;
         display: contents;
         flex-wrap: wrap;
