@@ -36,7 +36,7 @@ body {
 .naglowek {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 50px 0 0 20px;
+    padding: 20px;
     font-family: 'Rajdhani', sans-serif;
 }
 
@@ -67,7 +67,6 @@ body {
     align-items: center;
     padding: 0 15px;
     gap: 20px;
-    justify-content: center
 }
 
 .przekierowanie-mainpage {
@@ -230,7 +229,6 @@ body {
     flex-grow: 1;
 }
 
-
 .stopka {
     text-align: center;
     background-color: var(--glowny-jasny);
@@ -243,7 +241,6 @@ body {
     display: flex;
     margin: 0 auto;
 }
-
 
 .baner {
     flex: 1;
@@ -333,16 +330,23 @@ body {
         margin: 0;
         order: 3;
     }
-
-
     .kafelki ul {
         padding: 8px;
+        flex-wrap: nowrap;
         gap: 6px;
     }
 
     .kafelki a {
         padding: 8px 10px;
         font-size: 0.95rem;
+    }
+    .kafelki span {
+        display: none;
+    }
+    .kafelki a:hover span{
+        transition: transform 0.2s ease;
+        display: contents;
+        flex-wrap: wrap;
     }
 
     .produkty {
