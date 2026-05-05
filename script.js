@@ -62,3 +62,8 @@ function ZwrocOkladke(id) {
     return okladka;
 }
 
+function test() {
+    let zmienna = 1234;
+    return zmienna;
+}
+
