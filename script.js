@@ -50,14 +50,4 @@ function ZwrocBaner(id) {
     return response;
 }
 
-function WstawBanery() {
-    let kod = ZwrocBaner(730) + ZwrocBaner(570) + ZwrocBaner(440);
-    document.getElementById("banery-reklamowe").innerHTML = kod;
 
-}
-document.addEventListener('DOMContentLoaded', WstawBanery);
-
-function ZwrocOkladke(id) {
-    let okladka = `https://cdn.akamai.steamstatic.com/steam/apps/${id}/library_600x900.jpg`;
-    return okladka;
-}
