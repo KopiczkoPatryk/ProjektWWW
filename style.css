@@ -1,7 +1,9 @@
 * {
     box-sizing: border-box;
 }
-html, body {
+
+html,
+body {
     width: 100%;
     margin: 0;
     padding: 0;
@@ -70,13 +72,14 @@ body {
 .logo-img {
     transition: opacity 0.3s;
 }
-.logo{
+
+.logo {
     width: 100%;
     padding: 0 5px 0 0;
 }
 
 .przekierowanie-mainpage:hover .logo-img {
-    opacity: 0.6;          
+    opacity: 0.6;
 }
 
 .wyszukiwarka {
@@ -148,7 +151,7 @@ body {
 .konto-menu a {
     display: block;
     color: var(--tekst-glowny);
-    text-decoration: none; 
+    text-decoration: none;
     padding: 15px;
     border-radius: 15px;
     transition: background-color 0.3s ease;
@@ -185,15 +188,16 @@ body {
 .konto-menu a:hover {
     background-color: var(--glowny-jasniejszy);
 }
+
 .kafelki {
-    width:100%;
+    width: 100%;
     flex-grow: 1;
 }
+
 .kafelki ul {
     list-style: none;
     background-color: var(--glowny-ciemny);
     display: flex;
-    flex-wrap: wrap;
     justify-content: center;
     padding: 10px 0;
     margin: 0;
@@ -253,7 +257,7 @@ body {
 
 @media (min-width: 1024px) {
     .baner.duzy {
-        flex: 3; 
+        flex: 3;
     }
 }
 
@@ -280,13 +284,15 @@ body {
     display: flex;
     gap: 10px;
 }
-.produkt{
+
+.produkt {
     flex: 1;
-    object-fit:cover;
+    object-fit: cover;
     padding: 7px;
     transition: transform 0.2s ease, background-color 0.2s ease;
     cursor: pointer;
 }
+
 .produkt:hover {
     background-color: var(--glowny-jasniejszy);
     transform: scale(1.04);
@@ -298,6 +304,7 @@ body {
     object-fit: cover;
     border-radius: 10px;
 }
+
 @media (max-width: 768px) {
     .glowny-header .pasek-gorny {
         flex-wrap: wrap;
@@ -311,7 +318,7 @@ body {
     .konto-menu {
         order: 2;
     }
-    
+
     .wyszukiwarka {
         width: 100%;
         flex-basis: 100%;
@@ -323,6 +330,7 @@ body {
         flex-wrap: nowrap;
         gap: 6px;
     }
+
     .kafelki a {
         padding: 8px 10px;
         font-size: 0.95rem;
@@ -335,11 +343,19 @@ body {
         display: contents;
         flex-wrap: wrap;
     }
+
     .produkty {
         flex-direction: column;
         justify-content: center;
     }
+
     .produkt {
         width: 100%;
+    }
+
+    @media (max-width: 650px) {
+        .kafelki span {
+            display: none;
+        }
     }
 }
