@@ -24,12 +24,8 @@
                     <button type="submit">Szukaj</button>
                 </form>
                 <div class="konto-menu">
-                    <button id="loginBtn"><span>Zaloguj<span></button>
-                    <div class="rozwijane-menu">
-                        <a href="#"><i class="fa-solid fa-circle-user"></i><span>Konto</span></a>
-                        <a href="#"><i class="fa-solid fa-basket-shopping"></i><span>Koszyk</span></a>
-                        <a href="#" id="logoutBtn"><i class="fa-solid fa-arrow-right-from-bracket"></i><span>Wyloguj</span></a>
-                    </div>
+                    <button><span>User</span></button>
+                    <div class="rozwijane-menu" id="rozwijane-menu"></div>
                 </div>
                 <div class="konto-menu">
                     <Button id="motyw-przycisk"><span>Motyw</span></Button>
@@ -49,65 +45,13 @@
     <div class="jasna-kategoria">
         <div class="kategoria" id="polecane">
             <h2>Polecane</h2>
-            <div class="produkty">
-                <div class="produkt">
-                    <img src="iko-cbp.jpg" alt="Cyberpunk 2077">
-                    <h3>Cyberpunk 2077</h3>
-                    <p class="cena">49,99 zł</p>
-                </div>
-                <div class="produkt">
-                    <img src="iko-eldenring.jpg" alt="Elden Ring">
-                    <h3>Elden Ring</h3>
-                    <p class="cena">59,99 zł</p>
-                </div>
-                <div class="produkt">
-                    <img src="iko-witcher.jpg" alt="Wiedźmin 3: Dziki Gon">
-                    <h3>Wiedźmin 3: Dziki Gon</h3>
-                    <p class="cena">29,99 zł</p>
-                </div>
-                <div class="produkt">
-                    <img src="gta6.jpg" alt="GTA 6">
-                    <h3>GTA 6</h3>
-                    <p class="cena">599.99 zł</p>
-                </div>
-                <div class="produkt">
-                    <img src="fh5.jpg" alt="Forza Horizon 5">
-                    <h3>Forza Horizon 5</h3>
-                    <p class="cena">149,99 zł</p>
-                </div>
-            </div>
+            <div class="produkty" id="produkty-polecane"></div> 
         </div>
     </div>
     <div class="ciemna-kategoria">
         <div class="kategoria" id="doladowania">
             <h2>Doładowania i Waluty</h2>
-            <div class="produkty">
-                <div class="produkt">
-                    <img src="v-dolce.jpg" alt="V-Bucks">
-                    <h3>1000 V-Dolców</h3>
-                    <p class="cena">36,99 zł</p>
-                </div>
-                <div class="produkt">
-                    <img src="robux.jpg" alt="Robux">
-                    <h3>800 Robux</h3>
-                    <p class="cena">45,00 zł</p>
-                </div>
-                <div class="produkt">
-                    <img src="riot-points.jpg" alt="LoL RP">
-                    <h3>575 Riot Points</h3>
-                    <p class="cena">21,50 zł</p>
-                </div>
-                <div class="produkt">
-                    <img src="steam-wallet.jpg" alt="Steam">
-                    <h3>Steam 20 PLN</h3>
-                    <p class="cena">20,00 zł</p>
-                </div>
-                <div class="produkt">
-                    <img src="psn-card.jpg" alt="PSN">
-                    <h3>Karta PSN 50 PLN</h3>
-                    <p class="cena">50,00 zł</p>
-                </div>
-            </div>
+            <div class="produkty" id="produkty-doladowania"></div> 
         </div>
     </div>
     <div class="kontener">
