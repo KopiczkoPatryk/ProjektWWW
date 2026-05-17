@@ -1,47 +1,12 @@
+// Przycisk zmiany motywu
 const MotywPrzycisk = document.getElementById("motyw-przycisk")
 function ZmienMotyw() {
     document.body.classList.toggle("tryb-ciemny");
 }
 
 MotywPrzycisk.addEventListener("click", ZmienMotyw);
-document.addEventListener('DOMContentLoaded', () => {
 
-    const valid_login = "user1234"
-    const valid_password = "1234"
-
-    let isLoggedIn = false;
-
-    const loginBtn = document.getElementById('loginBtn');
-    const statusText = loginBtn.querySelector('span');
-
-    loginBtn.addEventListener('click', () => {
-        if (isLoggedIn === false) {
-            let login = prompt("Podaj login:");
-            let password = prompt("Podaj hasło:");
-
-            if (login === valid_login && password === valid_password) {
-                isLoggedIn = true;
-                statusText.textContent = login;
-                alert(`Pomyślnie zalogowano. Witaj ${login}`);
-            } else {
-                alert("Błędny login lub hasło!");
-            }
-        }
-    });
-
-    const logoutBtn = document.getElementById('logoutBtn');
-    logoutBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-
-        if (isLoggedIn === true) {
-            isLoggedIn = false;
-            statusText.textContent = "Zaloguj";
-            console.log("Użytkownik wylogowany");
-            alert("Wylogowano pomyślnie. Do zobaczenia!");
-        }
-    });
-});
-
+// Przechwytywanie i wstawianie banerów z zewnętrznej strony.
 function ZwrocBaner(id) {
     let baner = `https://cdn.akamai.steamstatic.com/steam/apps/${id}/capsule_616x353.jpg`;
     let response = `<a href="#" class="baner">
@@ -61,3 +26,29 @@ function ZwrocOkladke(id) {
     let okladka = `https://cdn.akamai.steamstatic.com/steam/apps/${id}/library_600x900.jpg`;
     return okladka;
 }
+
+// Optymalizacja/minimalizacja HTML
+
+// Menu dolne
+const menuAtrybut = [
+    { href: "#", icon: "fa-bars", text: "Kategorie" },
+    { href: "#", icon: "fa-piggy-bank", text: "Tanie gry" },
+    { href: "#", icon: "fa-key", text: "Klucze" },
+    { href: "#", icon: "fa-dice", text: "Losowe klucze" },
+    { href: "#", icon: "fa-hand-holding-dollar", text: "Prepaid" },
+];
+
+// Renderowanie na stronie
+document.addEventListener("DOMContentLoaded", () => {
+    const menuKontener = document.getElementById("menu-dolne");
+    if (menuKontener) {
+        menuKontener.innerHTML = menuAtrybut.map(item => `
+            <li>
+                <a href="${item.href}">
+                    <i class="fa-solid ${item.icon}"></i>
+                    <span>${item.text}</span>
+                </a>
+            </li>
+        `).join("");
+    }
+});
