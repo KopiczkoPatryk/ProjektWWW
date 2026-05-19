@@ -7,9 +7,7 @@
     <link rel="icon" type="image/x-icon" href="logo.png">
     <title>GameStation</title>
     <link rel="stylesheet" href="style.css">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Montserrat:wght@600&family=Rajdhani:wght@500;700&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Montserrat:wght@600&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 
@@ -17,7 +15,6 @@
     <header class="glowny-header">
         <div class="pasek-gorny">
             <div class="kontener">
-
                 <a href="index.html" class="przekierowanie-mainpage">
                     <img src="logo.png" href="index.html" width="80" height="80" alt="GameStation - Strona Główna"
                         class="logo-img">
@@ -27,68 +24,18 @@
                     <button type="submit">Szukaj</button>
                 </form>
                 <div class="konto-menu">
-                    <button id="loginBtn"><span>Zaloguj<span></button>
-                    <div class="rozwijane-menu">
-                        <a href="#">
-                            <i class="fa-solid fa-circle-user"></i>
-                            <span>Konto</span>
-                        </a>
-                        <a href="#">
-                            <i class="fa-solid fa-basket-shopping"></i>
-                            <span>Koszyk</span>
-                        </a>
-                        <a href="#" id="logoutBtn">
-                            <i class="fa-solid fa-arrow-right-from-bracket"></i>
-                            <span>Wyloguj</span>
-                        </a>
-                        <a href="https://www.youtube.com/watch?v=AXdMKfs0NfY">
-                            <i class="fa-solid fa-circle-exclamation"></i>
-                            <span>NIE WCHODZIĆ</span>
-                        </a>
-                    </div>
+                    <button><span>User</span></button>
+                    <div class="rozwijane-menu" id="rozwijane-menu"></div>
                 </div>
                 <div class="konto-menu">
-                    <Button id="motyw-przycisk">
-                        <span>Motyw</span>
-                    </Button>
+                    <Button id="motyw-przycisk"><span>Motyw</span></Button>
                 </div>
             </div>
         </div>
         <div class="pasek-dolny">
             <div class="kontener">
                 <div class="kafelki">
-                    <ul>
-                        <li>
-                            <a href="#">
-                                <i class="fa-solid fa-bars"></i>
-                                <span>Kategorie</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <i class="fa-solid fa-piggy-bank"></i>
-                                <span>Tanie gry</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <i class="fa-solid fa-key"></i>
-                                <span>Klucze</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <i class="fa-solid fa-dice"></i>
-                                <span>Losowe klucze</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <i class="fa-solid fa-hand-holding-dollar"></i>
-                                <span>Prepaid</span>
-                            </a>
-                        </li>
-                    </ul>
+                    <ul id="menu-dolne"></ul>
                 </div>
             </div>
         </div>
@@ -96,42 +43,15 @@
     <div id="banery-reklamowe" class="banery-reklamowe">
     </div>
     <div class="jasna-kategoria">
-        <div class="kategoria">
+        <div class="kategoria" id="">
             <h2>Polecane</h2>
-            <div class=" produkty" id="polecane">
-            </div>
+            <div class="produkty" id="polecane"></div> 
         </div>
     </div>
     <div class="ciemna-kategoria">
-        <div class="kategoria" id="doladowania">
+        <div class="kategoria" id="">
             <h2>Doładowania i Waluty</h2>
-            <div class="produkty">
-                <div class="produkt">
-                    <img src="v-dolce.jpg" alt="V-Bucks">
-                    <h3>1000 V-Dolców</h3>
-                    <p class="cena">36,99 zł</p>
-                </div>
-                <div class="produkt">
-                    <img src="robux.jpg" alt="Robux">
-                    <h3>800 Robux</h3>
-                    <p class="cena">45,00 zł</p>
-                </div>
-                <div class="produkt">
-                    <img src="riot-points.jpg" alt="LoL RP">
-                    <h3>575 Riot Points</h3>
-                    <p class="cena">21,50 zł</p>
-                </div>
-                <div class="produkt">
-                    <img src="steam-wallet.jpg" alt="Steam">
-                    <h3>Steam 20 PLN</h3>
-                    <p class="cena">20,00 zł</p>
-                </div>
-                <div class="produkt">
-                    <img src="psn-card.jpg" alt="PSN">
-                    <h3>Karta PSN 50 PLN</h3>
-                    <p class="cena">50,00 zł</p>
-                </div>
-            </div>
+            <div class="produkty" id=doladowania"></div> 
         </div>
     </div>
     <div class="kontener">
