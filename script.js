@@ -45,33 +45,34 @@ const menuAtrybut = [
     { href: "#", icon: "fa-hand-holding-dollar", text: "Prepaid" },
 ];
 
-// Atrybuty polecancyh produktów
-const polecaneProdukty = [
-    { img: "iko-cbp.jpg", alt: "Cyberpunk 2077", nazwa: "Cyberpunk 2077", cena: "49,99 zł" },
-    { img: "iko-eldenring.jpg", alt: "Elden Ring", nazwa: "Elden Ring", cena: "59,99 zł" },
-    { img: "iko-witcher.jpg", alt: "Wiedźmin 3: Dziki Gon", nazwa: "Wiedźmin 3: Dziki Gon", cena: "29,99 zł" },
-    { img: "gta6.jpg", alt: "GTA 6", nazwa: "GTA 6", cena: "599,99 zł" },
-    { img: "fh5.jpg", alt: "Forza Horizon 5", nazwa: "Forza Horizon 5", cena: "149,99 zł" },
-];
-
-// Atrybuty doładowań
-const doladowaniaProdukty = [
-    { img: "v-dolce.jpg", alt: "V-Bucks", nazwa: "1000 V-Dolców", cena: "36,99 zł" },
-    { img: "robux.jpg", alt: "Robux", nazwa: "800 Robux", cena: "45,00 zł" },
-    { img: "riot-points.jpg", alt: "LoL RP", nazwa: "575 Riot Points", cena: "21,50 zł" },
-    { img: "steam-wallet.jpg", alt: "Steam", nazwa: "Steam 20 PLN", cena: "20,00 zł" },
-    { img: "psn-card.jpg", alt: "PSN", nazwa: "Karta PSN 50 PLN", cena: "50,00 zł" }
-];
-
-// Funkcja wstawiająca produkt do HTML
-function wstawProdukt(produkt) {
-    return `
-        <div class="produkt">
-            <img src="${produkt.img}" alt="${produkt.alt}">
-            <h3>${produkt.nazwa}</h3>
-            <p class="cena">${produkt.cena}</p>
-        </div>
-    `;
+function WstawProdukt(id, nazwa, cena) {
+    let okladka = ZwrocOkladke(id);
+    let response = `<div class="produkt">
+                    <img src="${okladka}" alt="Cyberpunk 2077">
+                    <h3>${nazwa}</h3>
+                    <p class="cena">${cena}</p>
+                </div>`;
+    return response;
+}
+let polecane = [
+    { id: 730, nazwa: "Counter-Strike: Global Offensive", cena: "Darmowa" },
+    { id: 570, nazwa: "Dota 2", cena: "Darmowa" },
+    { id: 440, nazwa: "Team Fortress 2", cena: "Darmowa" },
+    { id: 1091500, nazwa: "Cyberpunk 2077", cena: "199,99 zł" },
+    { id: 1174180, nazwa: "Red Dead Redemption 2", cena: "249,99 zł" },
+    { id: 271590, nazwa: "Grand Theft Auto V", cena: "99,99 zł" },
+    { id: 292030, nazwa: "The Witcher 3: Wild Hunt", cena: "89,99 zł" },
+    { id: 578080, nazwa: "PLAYERUNKNOWN'S BATTLEGROUNDS", cena: "89,99 zł" }
+]
+function WstawProdukty(lista) {
+    let kod = "";
+    for (let i = 0; i < 5; i++) {
+        kod += WstawProdukt(lista[i].id, lista[i].nazwa, lista[i].cena);
+    }
+    return kod;
+}
+function WstawPolecane(polecane) {
+    document.getElementById("polecane").innerHTML = WstawProdukty(polecane);
 }
 
 // Renderowanie na stronie
@@ -99,13 +100,6 @@ document.addEventListener("DOMContentLoaded", () => {
         `).join("");
     }
 
-    const polecaneContainer = document.getElementById("produkty-polecane");
-    if (polecaneContainer) {
-        polecaneContainer.innerHTML = polecaneProdukty.map(wstawProdukt).join("");
-    }
-
-    const doladowaniaContainer = document.getElementById("produkty-doladowania");
-    if (doladowaniaContainer) {
-        doladowaniaContainer.innerHTML = doladowaniaProdukty.map(wstawProdukt).join("");
-    }
+    WstawPolecane(polecane);
 });
+
