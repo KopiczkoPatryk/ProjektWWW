@@ -99,7 +99,6 @@ document.addEventListener("DOMContentLoaded", () => {
             </li>
         `).join("");
     }
-
     WstawPolecane(polecane);
 });
 
