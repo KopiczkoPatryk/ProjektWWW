@@ -62,8 +62,35 @@ function ZwrocOkladke(id) {
     return okladka;
 }
 
-function test() {
-    let zmienna = 1234;
-    return zmienna;
+function WstawProdukt(id, nazwa, cena) {
+    let okladka = ZwrocOkladke(id);
+    let response = `<div class="produkt">
+                    <img src="${okladka}" alt="Cyberpunk 2077">
+                    <h3>${nazwa}</h3>
+                    <p class="cena">${cena}</p>
+                </div>`;
+    return response;
 }
-
+let polecane = [
+    { id: 730, nazwa: "Counter-Strike: Global Offensive", cena: "Darmowa" },
+    { id: 570, nazwa: "Dota 2", cena: "Darmowa" },
+    { id: 440, nazwa: "Team Fortress 2", cena: "Darmowa" },
+    { id: 1091500, nazwa: "Cyberpunk 2077", cena: "199,99 zł" },
+    { id: 1174180, nazwa: "Red Dead Redemption 2", cena: "249,99 zł" },
+    { id: 271590, nazwa: "Grand Theft Auto V", cena: "99,99 zł" },
+    { id: 292030, nazwa: "The Witcher 3: Wild Hunt", cena: "89,99 zł" },
+    { id: 578080, nazwa: "PLAYERUNKNOWN'S BATTLEGROUNDS", cena: "89,99 zł" }
+]
+function WstawProdukty(lista) {
+    let kod = "";
+    for (let i = 0; i < 5; i++) {
+        kod += WstawProdukt(lista[i].id, lista[i].nazwa, lista[i].cena);
+    }
+    return kod;
+}
+function WstawPolecane(polecane) {
+    document.getElementById("polecane").innerHTML = WstawProdukty(polecane);
+}
+document.addEventListener('DOMContentLoaded', () => {
+    WstawPolecane(polecane);
+});
