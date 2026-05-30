@@ -21,6 +21,8 @@ body {
 .tryb-ciemny {
     --glowny-jasny: rgb(38, 38, 38);
     --glowny-ciemny: #161616;
+    --glowny-jasniejszy: hsl(0, 0%, 25%);
+    --tlo-default: #505050;
 }
 
 body {
@@ -303,9 +305,9 @@ body {
 }
 
 .produkt img {
-    height: 15rem;
+    height: 20rem;
     width: 100%;
-    object-fit: cover;
+    object-fit: fill;
     border-radius: 10px;
 }
 
