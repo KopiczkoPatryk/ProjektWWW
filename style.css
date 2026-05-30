@@ -2,6 +2,7 @@
     box-sizing: border-box;
 }
 
+/*Elementy wspólne*/
 html,
 body {
     width: 100%;
@@ -239,8 +240,19 @@ body {
     margin-top: auto;
 }
 
+/*Strona główna*/
 .banery-reklamowe {
     display: flex;
+}
+
+.jasna-kategoria {
+    background-color: var(--glowny-jasny);
+    width: 100%;
+}
+
+.ciemna-kategoria {
+    background-color: var(--glowny-ciemny);
+    width: 100%;
 }
 
 .baner {
@@ -259,22 +271,6 @@ body {
 .baner:hover {
     transform: scale(1.02);
     cursor: pointer;
-}
-
-@media (min-width: 1024px) {
-    .baner.duzy {
-        flex: 3;
-    }
-}
-
-.jasna-kategoria {
-    background-color: var(--glowny-jasny);
-    width: 100%;
-}
-
-.ciemna-kategoria {
-    background-color: var(--glowny-ciemny);
-    width: 100%;
 }
 
 .kategoria {
@@ -309,6 +305,59 @@ body {
     width: 100%;
     object-fit: fill;
     border-radius: 10px;
+}
+
+/*Szczegóły produktu*/
+.szczegoly-produktu {
+    display: flex; gap: 40px; 
+    margin-top: 40px; 
+    padding: 20px; 
+    background: rgba(255,255,255,0.05); 
+    border-radius: 8px;
+    flex-grow: 1;
+}
+
+.okladka-duza {
+    max-width: 300px; 
+    border-radius: 8px;
+}
+
+.info-produktu h1{
+    font-size: 2.5rem; 
+    margin-bottom: 20px;
+}
+.info-produktu .cena{
+    font-size: 1.8rem; 
+    color: #ffcc00; 
+    font-weight: bold; 
+    margin-bottom: 20px;
+}
+
+.info-produktu p{
+    margin-bottom: 30px; 
+    line-height: 1.6;
+}
+
+.info-produktu button{
+    padding: 15px 30px; 
+    font-size: 1.2rem; 
+    background: #00cc66; 
+    border: none; 
+    color: white; 
+    border-radius: 5px; 
+    cursor: pointer;
+}
+
+.przycisk-powrot {
+    margin: 0 auto;
+    color: #0099ff; 
+    text-decoration: none;
+}
+
+@media (min-width: 1024px) {
+    .baner.duzy {
+        flex: 3;
+    }
 }
 
 @media (max-width: 768px) {
