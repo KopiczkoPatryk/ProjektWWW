@@ -1,13 +1,4 @@
-const polecane = [
-    { id: 730, nazwa: "Counter-Strike: Global Offensive", cena: "Darmowa" },
-    { id: 570, nazwa: "Dota 2", cena: "Darmowa" },
-    { id: 440, nazwa: "Team Fortress 2", cena: "Darmowa" },
-    { id: 1091500, nazwa: "Cyberpunk 2077", cena: "199,99 zł" },
-    { id: 1174180, nazwa: "Red Dead Redemption 2", cena: "249,99 zł" },
-    { id: 271590, nazwa: "Grand Theft Auto V", cena: "99,99 zł" },
-    { id: 292030, nazwa: "The Witcher 3: Wild Hunt", cena: "89,99 zł" },
-    { id: 578080, nazwa: "PLAYERUNKNOWN'S BATTLEGROUNDS", cena: "89,99 zł" }
-];
+let polecane = [];
 
 const menuRozwijaneAtrybut = [
     { href: "#", icon: "fa-circle-user", text: "Konto"},
@@ -24,8 +15,46 @@ const menuAtrybut = [
     { href: "#", icon: "fa-hand-holding-dollar", text: "Prepaid" },
 ];
 
-function BodyStronaGlowna() {
+async function PobierzPopularneGry() {
+    try {
+        const response = await fetch('gry.json');
+        if (!response.ok) throw new Error("Błąd ładowania Mock API");
+        
+        const bazaGier = await response.json();
+        const wszystkieIds = Object.keys(bazaGier);
+
+        for (let i = wszystkieIds.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [wszystkieIds[i], wszystkieIds[j]] = [wszystkieIds[j], wszystkieIds[i]];
+        }
+
+        const wylosowaneIds = wszystkieIds.slice(0, 5);
+
+        polecane = wylosowaneIds.map(id => {
+            const gra = bazaGier[id];
+            
+            return {
+                id: parseInt(id),
+                nazwa: gra.name,
+                cena: gra.price || "Brak ceny"
+            };
+        });
+
+    } catch (e) {
+        console.error("Mock API nie działa, ładowanie listy awaryjnej:", e);
+        polecane = [
+            { id: 1091500, nazwa: "Cyberpunk 2077", cena: "199,00 zł" },
+            { id: 1174180, nazwa: "Red Dead Redemption 2", cena: "249,00 zł" },
+            { id: 271590, nazwa: "Grand Theft Auto V", cena: "129,90 zł" }
+        ];
+    }
+}
+
+async function BodyStronaGlowna() {
     const tresc = document.getElementById("tresc");
+    tresc.innerHTML = `<div class="kontener"><h2>Ładowanie najlepszych ofert...</h2></div>`;
+    await PobierzPopularneGry();
+    
     tresc.innerHTML = `
         <header class="glowny-header">
             <div class="pasek-gorny">
@@ -72,9 +101,9 @@ function BodyStronaGlowna() {
             </div>
         </div>
 
-        <footer class="stopka">
-            Copyright © 2026 GameStation. Wszelkie prawa zastrzeżone.
-        </footer>
+        <div class="stopka">
+            <footer>Copyright © 2026 GameStation. Wszelkie prawa zastrzeżone.</footer>
+        </div>
     `;
 
     LadujWpolneElem();
@@ -132,14 +161,20 @@ function BodySczegolyProduktu(produktId) {
                     <button>Kup teraz</button>
                 </div>
             </div>
-            <div style="margin-top: 20px;">
+            <div class="kontener">
                 <a class="przycisk-powrot" href="#"><i class="fa-solid fa-arrow-left"></i> Powrót do sklepu</a>
             </div>
         </div>
+        <div class="kontener">
+            <div class="naglowek">
+                <h1>Taniej gier nie znajdziesz, nie no stary mówie ci.</h1>
+                <h2>No chyba, że wujek Gaben powie inaczej...</h2>
+            </div>
+        </div>
 
-        <footer class="stopka">
-            Copyright © 2026 GameStation. Wszelkie prawa zastrzeżone.
-        </footer>
+        <div class="stopka">
+            <footer>Copyright © 2026 GameStation. Wszelkie prawa zastrzeżone.</footer>
+        </div>
     `;
 
     LadujWpolneElem();
@@ -152,7 +187,9 @@ function ZwrocBaner(id) {
 }
 
 function WstawBanery() {
-    let kod = ZwrocBaner(730) + ZwrocBaner(570) + ZwrocBaner(440);
+    let kod = ZwrocBaner(1091500) + ZwrocBaner(1174180) + ZwrocBaner(271590);
+    
+    
     document.getElementById("banery-reklamowe").innerHTML = kod;
 }
 
@@ -162,9 +199,10 @@ function ZwrocOkladke(id) {
 
 function WstawProdukt(id, nazwa, cena) {
     let okladka = ZwrocOkladke(id);
+    let obrazekZastepczy = "https://placehold.co/600x900?text=Brak+Okładki";
     return `
             <div class="produkt" style="cursor: pointer;" onclick="window.location.hash='#/produkt/${id}'">
-                <img src="${okladka}" alt="${nazwa}">
+                <img src="${okladka}" alt="${nazwa}" onerror="this.onerror=null; this.src='${obrazekZastepczy}';">
                 <h3>${nazwa}</h3>
                 <p class="cena">${cena}</p>
             </div>
@@ -173,7 +211,8 @@ function WstawProdukt(id, nazwa, cena) {
 
 function WstawProdukty(lista) {
     let kod = "";
-    for (let i = 0; i < 5; i++) {
+    const limit = Math.min(lista.length, 5);
+    for (let i = 0; i < limit; i++) {
         kod += WstawProdukt(lista[i].id, lista[i].nazwa, lista[i].cena);
     }
     return kod;
@@ -223,7 +262,6 @@ function ZmianaStrony() {
 
 // Renderowanie na stronie
 document.addEventListener("DOMContentLoaded", () => {
-    
     ZmianaStrony();
     window.addEventListener("hashchange", ZmianaStrony);
 });

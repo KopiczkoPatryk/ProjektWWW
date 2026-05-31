@@ -309,17 +309,17 @@ body {
 
 /*Szczegóły produktu*/
 .szczegoly-produktu {
-    display: flex; gap: 40px; 
+    display: flex; 
+    align-items: center;
+    gap: 50px; 
     margin-top: 40px; 
-    padding: 20px; 
-    background: rgba(255,255,255,0.05); 
+    padding: 30px;
+    background: var(--glowny-jasny); 
     border-radius: 8px;
-    flex-grow: 1;
 }
 
 .okladka-duza {
     max-width: 300px; 
-    border-radius: 8px;
 }
 
 .info-produktu h1{
@@ -350,7 +350,8 @@ body {
 
 .przycisk-powrot {
     margin: 0 auto;
-    color: #0099ff; 
+    color: #0099ff;
+    padding: 20px; 
     text-decoration: none;
 }
 
