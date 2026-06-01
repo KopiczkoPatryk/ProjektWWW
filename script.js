@@ -1,13 +1,14 @@
 let polecane = [];
 let koszyk = [];
 
+// Atrybuty rozwijanego menu użytkownika. Użyte w funkcji LadujWpolneElem().
 const menuRozwijaneAtrybut = [
     { href: "#", icon: "fa-circle-user", text: "Konto"},
     { href: "#/koszyk", icon: "fa-basket-shopping", text: "Koszyk"},
     { href: "#", icon: "fa-arrow-right-from-bracket", text: "Wyloguj"}
 ];
 
-// Atrybuty menu dolnego
+// Atrybuty menu dolnego pod paskiem wyszukiwania. Użyte w funkcji LadujWpolneElem().
 const menuAtrybut = [
     { href: "#", icon: "fa-bars", text: "Kategorie" },
     { href: "#", icon: "fa-piggy-bank", text: "Tanie gry" },
@@ -16,6 +17,11 @@ const menuAtrybut = [
     { href: "#", icon: "fa-hand-holding-dollar", text: "Prepaid" },
 ];
 
+/**
+ * Pobiera bazę gier z lokalnego pliku gry.json, po czym tasuje ich Steam ID i wybiera tylko 12.
+ * Aktualne ceny są odpytywane przez API GGDeals i wstawiane do zmiennej "polecane".
+ * W razie błędu przypisuje do zmiennej globalnej `polecane` listę awaryjną.
+*/
 async function PobierzPopularneGry() {
     try {
         const response = await fetch('gry.json');
@@ -72,45 +78,21 @@ async function PobierzPopularneGry() {
         polecane = [
             { id: 1091500, nazwa: "Cyberpunk 2077", cena: "199,00 zł" },
             { id: 1174180, nazwa: "Red Dead Redemption 2", cena: "249,00 zł" },
-            { id: 271590, nazwa: "Grand Theft Auto V", cena: "129,90 zł" }
+            { id: 271590, nazwa: "Grand Theft Auto V", cena: "129,90 zł" },
+            { id: 1245620, nazwa: "Elden Ring", cena: "249,00 zł" }
         ];
     }
 }
 
+// Ładuje strony głównej w <body>, ale najpierw oczekuje na pobranie gier z funkcji await PobierzPopularneGry().
 async function BodyStronaGlowna() {
     const tresc = document.getElementById("tresc");
     tresc.innerHTML = `<div class="kontener"><h2>Ładowanie najlepszych ofert...</h2></div>`;
     await PobierzPopularneGry();
     
     tresc.innerHTML = `
-        <header class="glowny-header">
-            <div class="pasek-gorny">
-                <div class="kontener">
-                    <a href="#" class="przekierowanie-mainpage">
-                        <img src="logo.png" width="80" height="80" alt="GameStation - Strona Główna"
-                            class="logo-img">
-                    </a>
-                    <form class="wyszukiwarka">
-                        <input type="text" placeholder="Wyszukaj..">
-                        <button type="submit">Szukaj</button>
-                    </form>
-                    <div class="konto-menu">
-                        <button><span>User</span></button>
-                        <div class="rozwijane-menu" id="rozwijane-menu"></div>
-                    </div>
-                    <div class="konto-menu">
-                        <Button id="motyw-przycisk"><span>Motyw</span></Button>
-                    </div>
-                </div>
-            </div>
-            <div class="pasek-dolny">
-                <div class="kontener">
-                    <div class="kafelki">
-                        <ul id="menu-dolne"></ul>
-                    </div>
-                </div>
-            </div>
-        </header>
+        <header class="glowny-header" id="glowny-header"></header>
+
         <div id="banery-reklamowe" class="banery-reklamowe"></div>
         <div class="jasna-kategoria">
             <div class="kategoria">
@@ -121,16 +103,8 @@ async function BodyStronaGlowna() {
         <div class="ciemna-kategoria">
             <div class="kategoria"></div>
         </div>
-        <div class="kontener">
-            <div class="naglowek">
-                <h1>Taniej gier nie znajdziesz, nie no stary mówie ci.</h1>
-                <h2>No chyba, że wujek Gaben powie inaczej...</h2>
-            </div>
-        </div>
-
-        <div class="stopka">
-            <footer>Copyright © 2026 GameStation. Wszelkie prawa zastrzeżone.</footer>
-        </div>
+        
+        <div id="dolna-sekcja"></div>
     `;
 
     LadujWpolneElem();
@@ -138,6 +112,7 @@ async function BodyStronaGlowna() {
     document.getElementById("polecane").innerHTML = WstawProdukty(polecane);
 }
 
+// Ładuje template podstrony opisu produktu w <body>.
 function BodySczegolyProduktu(produktId) {
     const produkt = polecane.find(p => p.id === parseInt(produktId));
 
@@ -148,33 +123,7 @@ function BodySczegolyProduktu(produktId) {
     
     const tresc = document.getElementById("tresc");
     tresc.innerHTML = `
-        <header class="glowny-header">
-            <div class="pasek-gorny">
-                <div class ="kontener">
-                    <a href="#" class="przekierowanie-mainpage">
-                        <img src="logo.png" width="80" height="80" alt="GameStation - Strona Główna" class="logo-img">
-                    </a>
-                    <form class="wyszukiwarka">
-                        <input type="text" placeholder="Wyszukaj..">
-                        <button type="submit">Szukaj</button>
-                    </form>
-                    <div class="konto-menu">
-                        <button><span>User</span></button>
-                        <div class="rozwijane-menu" id="rozwijane-menu"></div>
-                    </div>
-                    <div class="konto-menu">
-                        <Button id="motyw-przycisk"><span>Motyw</span></Button>
-                    </div>
-                </div>
-            </div>
-            <div class="pasek-dolny">
-                <div class="kontener">
-                    <div class="kafelki">
-                        <ul id="menu-dolne"></ul>
-                    </div>
-                </div>
-            </div>
-        </header>
+        <header class="glowny-header" id="glowny-header"></header>
 
         <div class="kontener">
             <div class="karta-produktu">
@@ -195,54 +144,19 @@ function BodySczegolyProduktu(produktId) {
                 </div>
             </div>
         </div>
-        <div class="kontener">
-            <div class="naglowek">
-                <h1>Taniej gier nie znajdziesz, nie no stary mówie ci.</h1>
-                <h2>No chyba, że wujek Gaben powie inaczej...</h2>
-            </div>
-        </div>
 
-        <div class="stopka">
-            <footer>Copyright © 2026 GameStation. Wszelkie prawa zastrzeżone.</footer>
-        </div>
+        <div id="dolna-sekcja"></div>
     `;
 
     LadujWpolneElem();
 }
 
+// Ładuje template podstrony koszyka w <body>.
 function BodyKoszyk() {
     const tresc = document.getElementById("tresc");
 
     tresc.innerHTML = `
-        <header class="glowny-header">
-            <div class="pasek-gorny">
-                <div class="kontener">
-                    <a href="#" class="przekierowanie-mainpage">
-                        <img src="logo.png" width="80" height="80" alt="GameStation - Strona Główna"
-                            class="logo-img">
-                    </a>
-                    <form class="wyszukiwarka">
-                        <input type="text" placeholder="Wyszukaj..">
-                        <button type="submit">Szukaj</button>
-                    </form>
-                    <div class="konto-menu">
-                        <button><span>User</span></button>
-                        <div class="rozwijane-menu" id="rozwijane-menu"></div>
-                    </div>
-                    <div class="konto-menu">
-                        <Button id="motyw-przycisk"><span>Motyw</span></Button>
-                    </div>
-                </div>
-            </div>
-            <div class="pasek-dolny">
-                <div class="kontener">
-                    <div class="kafelki">
-                        <ul id="menu-dolne"></ul>
-                    </div>
-                </div>
-            </div>
-        </header>
-        
+        <header class="glowny-header" id="glowny-header"></header>
         <div class="kontener">
             <div class="koszyk-kontener">
                 <h1>Twój Koszyk</h1>
@@ -255,37 +169,30 @@ function BodyKoszyk() {
                 </div>
             </div>
         </div>
-        <div class="kontener">
-            <div class="naglowek">
-                <h1>Taniej gier nie znajdziesz, nie no stary mówie ci.</h1>
-                <h2>No chyba, że wujek Gaben powie inaczej...</h2>
-            </div>
-        </div>
-
-        <div class="stopka">
-            <footer>Copyright © 2026 GameStation. Wszelkie prawa zastrzeżone.</footer>
-        </div>
+        
+        <div id="dolna-sekcja"></div>
     `
     LadujWpolneElem();
 }
 
-// Przechwytywanie i wstawianie banerów z zewnętrznej strony.
+// Pobiera obraz z zewnętrznej strony przy użyciu SteamID i wstawia go do fragmentu HTML.
 function ZwrocBaner(id) {
     let baner = `https://cdn.akamai.steamstatic.com/steam/apps/${id}/capsule_616x353.jpg`;
     return `<a href="#" class="baner"><img src="${baner}" alt="Baner ${id}"></a>`;
 }
 
+// Przygotowuje strukturę kodu HTML 3 banerów reklamowych i wstawia go do sekcji o id: "banery-reklamowe".
 function WstawBanery() {
     let kod = ZwrocBaner(1091500) + ZwrocBaner(1174180) + ZwrocBaner(271590);
-    
-    
     document.getElementById("banery-reklamowe").innerHTML = kod;
 }
 
+// Pobiera zdjęcie okładki gry za pomocą SteamID gry z zewnętrznej strony.
 function ZwrocOkladke(id) { 
     return `https://cdn.akamai.steamstatic.com/steam/apps/${id}/library_600x900.jpg`;
 }
 
+// Wstawia okładkę, nazwę i cenę produktu do fragmentu kodu HTML, a w razie jej braku wstawia placeholder.
 function WstawProdukt(id, nazwa, cena) {
     let okladka = ZwrocOkladke(id);
     let obrazekZastepczy = "https://placehold.co/600x900?text=Brak+Okładki";
@@ -298,6 +205,7 @@ function WstawProdukt(id, nazwa, cena) {
             `;
 }
 
+// Zwraca całą strukture kodu HTML produktów  
 function WstawProdukty(lista) {
     let kod = "";
     const limit = Math.min(lista.length, 12);
@@ -307,7 +215,55 @@ function WstawProdukty(lista) {
     return kod;
 }
 
+// Załadowanie do <body> elementów wspólnych.
 function LadujWpolneElem() {
+    const glownyHeader = document.getElementById("glowny-header");
+        if (glownyHeader) {
+            glownyHeader.innerHTML = `
+                <div class="pasek-gorny">
+                    <div class ="kontener">
+                        <a href="#" class="przekierowanie-mainpage">
+                            <img src="logo.png" width="80" height="80" alt="GameStation - Strona Główna" class="logo-img">
+                        </a>
+                        <form class="wyszukiwarka">
+                            <input type="text" placeholder="Wyszukaj..">
+                            <button type="submit">Szukaj</button>
+                        </form>
+                        <div class="konto-menu">
+                            <button><span>User</span></button>
+                            <div class="rozwijane-menu" id="rozwijane-menu"></div>
+                        </div>
+                        <div class="konto-menu">
+                            <Button id="motyw-przycisk"><span>Motyw</span></Button>
+                        </div>
+                    </div>
+                </div>
+                <div class="pasek-dolny">
+                    <div class="kontener">
+                        <div class="kafelki">
+                            <ul id="menu-dolne"></ul>
+                        </div>
+                    </div>
+                </div>            
+            `
+        }
+    
+    const dolnaSekcja = document.getElementById("dolna-sekcja");
+        if (dolnaSekcja) {
+            dolnaSekcja.innerHTML = `
+                <div class="kontener">
+                    <div class="naglowek">
+                        <h1>Taniej gier nie znajdziesz, nie no stary mówie ci.</h1>
+                        <h2>No chyba, że wujek Gaben powie inaczej...</h2>
+                    </div>
+                </div>
+
+                <div class="stopka">
+                    <footer>Copyright © 2026 GameStation. Wszelkie prawa zastrzeżone.</footer>
+                </div>           
+            `
+        }
+
     const menuRozwijane = document.getElementById("rozwijane-menu");
         if (menuRozwijane) {
             menuRozwijane.innerHTML = menuRozwijaneAtrybut.map(item => `
@@ -318,26 +274,29 @@ function LadujWpolneElem() {
             `).join("");
         }
         
-        const menuKontener = document.getElementById("menu-dolne");
-        if (menuKontener) {
-            menuKontener.innerHTML = menuAtrybut.map(item => `
-                <li>
-                    <a href="${item.href}">
-                        <i class="fa-solid ${item.icon}"></i>
-                        <span>${item.text}</span>
-                    </a>
-                </li>
-            `).join("");
-        }
+    const menuKontener = document.getElementById("menu-dolne");
+    if (menuKontener) {
+        menuKontener.innerHTML = menuAtrybut.map(item => `
+            <li>
+                <a href="${item.href}">
+                    <i class="fa-solid ${item.icon}"></i>
+                    <span>${item.text}</span>
+                </a>
+            </li>
+        `).join("");
+    }
      
-        const MotywPrzycisk = document.getElementById("motyw-przycisk");
-        if (MotywPrzycisk) {
-            MotywPrzycisk.addEventListener("click", () => {
-                document.body.classList.toggle("tryb-ciemny");
-            });
-        }
+    const MotywPrzycisk = document.getElementById("motyw-przycisk");
+    if (MotywPrzycisk) {
+        MotywPrzycisk.addEventListener("click", () => {
+            document.body.classList.toggle("tryb-ciemny");
+        });
+    }
 }
 
+
+
+//Dodaje produkt do listy "koszyk"
 function DodajDoKoszyka(produktId) {
     const produkt = polecane.find(p => p.id == parseInt(produktId));
     if (produkt) {
@@ -348,6 +307,7 @@ function DodajDoKoszyka(produktId) {
     }
 }
 
+// Usuwa produkt na podstawie jego ID i odświeża podstrone koszyka.
 function UsunZKoszyka(produktId) {
     const produkt = koszyk.findIndex(p => p.id === parseInt(produktId));
     
@@ -363,6 +323,10 @@ function UsunZKoszyka(produktId) {
     }
 }
 
+/**Wstawia strukturę kodu HTML produktów dodanych do koszyka do podstrony koszyka.
+ * W razie gdy lista "koszyk" jest pusta, Wyświetla odpowiedznią informację.
+ * W strukturze kodu HTML umieszczono funkcję usuwania produktów w przycisku. 
+*/
 function WstawProduktKoszyk() {
     if (koszyk.length === 0) {
         return '<p class="koszyk-pusty">Twój koszyk jest pusty.</p>';
@@ -380,7 +344,7 @@ function WstawProduktKoszyk() {
     `).join('');
 }
 
-
+// Zmiana struktury <body> w zależności od URL
 function ZmianaStrony() {
     const hash = window.location.hash;
 
@@ -399,4 +363,3 @@ document.addEventListener("DOMContentLoaded", () => {
     ZmianaStrony();
     window.addEventListener("hashchange", ZmianaStrony);
 });
-

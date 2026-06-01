@@ -1,10 +1,9 @@
-require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 
 const app = express();
 const PORT = 3000;
-const API_KEY = process.env.GG_DEALS_API_KEY;
+const API_KEY = `YbDL7pP0HuGma_udF5JQMBbslZHngZgk`;
 
 app.use(cors());
 
