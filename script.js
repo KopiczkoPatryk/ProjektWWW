@@ -2,7 +2,7 @@ let polecane = [];
 
 const menuRozwijaneAtrybut = [
     { href: "#", icon: "fa-circle-user", text: "Konto"},
-    { href: "#", icon: "fa-basket-shopping", text: "Koszyk"},
+    { href: "#/koszyk", icon: "fa-basket-shopping", text: "Koszyk"},
     { href: "#", icon: "fa-arrow-right-from-bracket", text: "Wyloguj"}
 ];
 
@@ -45,7 +45,8 @@ async function PobierzPopularneGry() {
         polecane = [
             { id: 1091500, nazwa: "Cyberpunk 2077", cena: "199,00 zł" },
             { id: 1174180, nazwa: "Red Dead Redemption 2", cena: "249,00 zł" },
-            { id: 271590, nazwa: "Grand Theft Auto V", cena: "129,90 zł" }
+            { id: 271590, nazwa: "Grand Theft Auto V", cena: "129,90 zł" },
+            { id: 271590, nazwa: "Wiedźmin 3: Dziki Gon", cena: "149,99 zł" }
         ];
     }
 }
@@ -159,6 +160,7 @@ function BodySczegolyProduktu(produktId) {
                     <p class="cena">${produkt.cena}</p>
                     <p>To jest szczegółowy opis gry ${produkt.nazwa}. Kupując u nas masz gwarancję najniższej ceny oraz błyskawicznej dostawy klucza cyfrowego!</p>
                     <button>Kup teraz</button>
+                    <button id="przycisk-koszyk">Dodaj do koszyka</button>
                 </div>
             </div>
             <div class="kontener">
@@ -177,6 +179,62 @@ function BodySczegolyProduktu(produktId) {
         </div>
     `;
 
+    LadujWpolneElem();
+}
+
+function BodyKoszyk() {
+    const tresc = document.getElementById("tresc");
+
+    tresc.innerHTML = `
+        <header class="glowny-header">
+            <div class="pasek-gorny">
+                <div class="kontener">
+                    <a href="#" class="przekierowanie-mainpage">
+                        <img src="logo.png" width="80" height="80" alt="GameStation - Strona Główna"
+                            class="logo-img">
+                    </a>
+                    <form class="wyszukiwarka">
+                        <input type="text" placeholder="Wyszukaj..">
+                        <button type="submit">Szukaj</button>
+                    </form>
+                    <div class="konto-menu">
+                        <button><span>User</span></button>
+                        <div class="rozwijane-menu" id="rozwijane-menu"></div>
+                    </div>
+                    <div class="konto-menu">
+                        <Button id="motyw-przycisk"><span>Motyw</span></Button>
+                    </div>
+                </div>
+            </div>
+            <div class="pasek-dolny">
+                <div class="kontener">
+                    <div class="kafelki">
+                        <ul id="menu-dolne"></ul>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <div class="kontener">
+            <div class="koszyk-kontener">
+                <h1>Twój Koszyk</h1>
+                <div id="zawartosc-koszyka">
+                    <p>Koszyk jest pusty.</p>
+                </div>
+                <br>
+                <a class="przycisk-powrot" href="#"><i class="fa-solid fa-arrow-left"></i> Powrót do sklepu</a>
+            </div>
+        </div>
+        <div class="kontener">
+            <div class="naglowek">
+                <h1>Taniej gier nie znajdziesz, nie no stary mówie ci.</h1>
+                <h2>No chyba, że wujek Gaben powie inaczej...</h2>
+            </div>
+        </div>
+
+        <div class="stopka">
+            <footer>Copyright © 2026 GameStation. Wszelkie prawa zastrzeżone.</footer>
+        </div>
+    `
     LadujWpolneElem();
 }
 
@@ -255,6 +313,8 @@ function ZmianaStrony() {
     if (hash.startsWith("#/produkt/")) {
         const id = hash.split("/")[2];
         BodySczegolyProduktu(id);
+    } else if (hash === "#/koszyk") {
+        BodyKoszyk();
     } else {
         BodyStronaGlowna();
     }
