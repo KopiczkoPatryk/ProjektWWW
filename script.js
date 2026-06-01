@@ -1,4 +1,5 @@
 let polecane = [];
+let koszyk = [];
 
 const menuRozwijaneAtrybut = [
     { href: "#", icon: "fa-circle-user", text: "Konto"},
@@ -124,7 +125,7 @@ function BodySczegolyProduktu(produktId) {
     tresc.innerHTML = `
         <header class="glowny-header">
             <div class="pasek-gorny">
-                <div class="kontener">
+                <div class ="kontener">
                     <a href="#" class="przekierowanie-mainpage">
                         <img src="logo.png" width="80" height="80" alt="GameStation - Strona Główna" class="logo-img">
                     </a>
@@ -151,20 +152,22 @@ function BodySczegolyProduktu(produktId) {
         </header>
 
         <div class="kontener">
-            <div class="szczegoly-produktu">
-                <div class="okladka-duza">
-                    <img src="${ZwrocOkladke(produkt.id)}" alt="${produkt.nazwa}">
+            <div class="karta-produktu">
+                <div class="szczegoly-produktu">
+                    <div class="okladka-duza">
+                        <img src="${ZwrocOkladke(produkt.id)}" alt="${produkt.nazwa}">
+                    </div>
+                    <div class="info-produktu">
+                        <h1>${produkt.nazwa}</h1>
+                        <p class="cena">${produkt.cena}</p>
+                        <p>To jest szczegółowy opis gry ${produkt.nazwa}. Kupując u nas masz gwarancję najniższej ceny oraz błyskawicznej dostawy klucza cyfrowego!</p>
+                        <button>Kup teraz</button>
+                        <button id="przycisk-koszyk" onclick="DodajDoKoszyka(${produkt.id})">Dodaj do koszyka</button>
+                    </div>
                 </div>
-                <div class="info-produktu">
-                    <h1>${produkt.nazwa}</h1>
-                    <p class="cena">${produkt.cena}</p>
-                    <p>To jest szczegółowy opis gry ${produkt.nazwa}. Kupując u nas masz gwarancję najniższej ceny oraz błyskawicznej dostawy klucza cyfrowego!</p>
-                    <button>Kup teraz</button>
-                    <button id="przycisk-koszyk">Dodaj do koszyka</button>
+                <div class="info-stopka">
+                    <a class="przycisk-powrot" href="#"><i class="fa-solid fa-arrow-left"></i> Powrót do sklepu</a>
                 </div>
-            </div>
-            <div class="kontener">
-                <a class="przycisk-powrot" href="#"><i class="fa-solid fa-arrow-left"></i> Powrót do sklepu</a>
             </div>
         </div>
         <div class="kontener">
@@ -214,14 +217,17 @@ function BodyKoszyk() {
                 </div>
             </div>
         </header>
+        
         <div class="kontener">
             <div class="koszyk-kontener">
                 <h1>Twój Koszyk</h1>
                 <div id="zawartosc-koszyka">
-                    <p>Koszyk jest pusty.</p>
+                    ${WstawProduktKoszyk()}
                 </div>
-                <br>
-                <a class="przycisk-powrot" href="#"><i class="fa-solid fa-arrow-left"></i> Powrót do sklepu</a>
+                <div class="koszyk-stopka">
+                    <a class="przycisk-powrot" href="#"><i class="fa-solid fa-arrow-left"></i> Powrót do sklepu</a>
+                    ${koszyk.length > 0 ? '<button class="przycisk-kup">Przejdź do płatności</button>' : ''}
+                </div>
             </div>
         </div>
         <div class="kontener">
@@ -306,6 +312,49 @@ function LadujWpolneElem() {
             });
         }
 }
+
+function DodajDoKoszyka(produktId) {
+    const produkt = polecane.find(p => p.id == parseInt(produktId));
+    if (produkt) {
+        koszyk.push(produkt);
+        alert("Dodano produkt do koszyka.")
+    } else {
+        alert("Nie udało się dodać produktu.")
+    }
+}
+
+function UsunZKoszyka(produktId) {
+    const produkt = koszyk.findIndex(p => p.id === parseInt(produktId));
+    
+    if (produkt !== -1) {
+        koszyk.splice(produkt, 1); 
+        
+        const zawartosc = document.getElementById("zawartosc-koszyka");
+        if (zawartosc) {
+            zawartosc.innerHTML = WstawProduktKoszyk();
+        }
+        
+        BodyKoszyk(); 
+    }
+}
+
+function WstawProduktKoszyk() {
+    if (koszyk.length === 0) {
+        return '<p class="koszyk-pusty">Twój koszyk jest pusty.</p>';
+    }
+
+    return koszyk.map(gra => `
+        <div class="koszyk-element">
+            <div class="koszyk-produkt-info">
+                <img src="${ZwrocOkladke(gra.id)}" alt="${gra.nazwa}" class="koszyk-okladka">
+                <span class="koszyk-nazwa">${gra.nazwa}</span>
+            </div>
+            <span class="koszyk-cena">${gra.cena}</span>
+            <button class="usun-z-koszyka" onclick="UsunZKoszyka(${gra.id})"><i class="fa-solid fa-trash"></i></button>
+        </div>
+    `).join('');
+}
+
 
 function ZmianaStrony() {
     const hash = window.location.hash;
