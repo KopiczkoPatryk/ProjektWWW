@@ -284,11 +284,13 @@ body {
 
 .produkty {
     display: flex;
-    gap: 10px;
+    flex-wrap: wrap;
+    gap: 20px;
 }
 
 .produkt {
-    flex: 1;
+    flex: 1 1 calc(25% - 20px);
+    min-width: 200px;
     object-fit: cover;
     padding: 7px;
     transition: transform 0.2s ease, background-color 0.2s ease;
@@ -301,9 +303,10 @@ body {
 }
 
 .produkt img {
-    height: 20rem;
+    height: auto;
     width: 100%;
-    object-fit: fill;
+    aspect-ratio: 2 / 3;
+    object-fit: cover;
     border-radius: 10px;
 }
 

@@ -29,7 +29,7 @@ async function PobierzPopularneGry() {
             [wszystkieIds[i], wszystkieIds[j]] = [wszystkieIds[j], wszystkieIds[i]];
         }
 
-        const wylosowaneIds = wszystkieIds.slice(0, 5);
+        const wylosowaneIds = wszystkieIds.slice(0, 12);
 
         polecane = wylosowaneIds.map(id => {
             const gra = bazaGier[id];
@@ -275,7 +275,7 @@ function WstawProdukt(id, nazwa, cena) {
 
 function WstawProdukty(lista) {
     let kod = "";
-    const limit = Math.min(lista.length, 5);
+    const limit = Math.min(lista.length, 12);
     for (let i = 0; i < limit; i++) {
         kod += WstawProdukt(lista[i].id, lista[i].nazwa, lista[i].cena);
     }
