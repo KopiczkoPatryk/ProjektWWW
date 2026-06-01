@@ -20,7 +20,7 @@ async function PobierzPopularneGry() {
     try {
         const response = await fetch('gry.json');
         if (!response.ok) throw new Error("Błąd ładowania Mock API");
-        
+
         const bazaGier = await response.json();
         const wszystkieIds = Object.keys(bazaGier);
 
@@ -30,24 +30,49 @@ async function PobierzPopularneGry() {
         }
 
         const wylosowaneIds = wszystkieIds.slice(0, 12);
+        const wyniki = [];
 
-        polecane = wylosowaneIds.map(id => {
+        for (const id of wylosowaneIds) {
             const gra = bazaGier[id];
-            
-            return {
+            let cena = gra.price || "Brak ceny";
+
+            try {
+                const responseGG = await fetch(`http://localhost:3000/api/game/${id}`);
+
+                if (responseGG.ok) {
+                    const daneGG = await responseGG.json();
+
+                    if (daneGG.data[id]) {
+                        const ceny = daneGG.data[id].prices;
+                        const klucze = ceny.currentKeyshops;
+                        const sklep = ceny.currentRetail;
+
+                        if (klucze && klucze != "null") {
+                            cena = `${klucze} PLN`;
+                        } else if (sklep && sklep != "null") {
+                            cena = `${sklep} PLN`;
+                        }
+                    }
+                }
+            } catch (errorGG) {
+                console.warn(`Nie udało się pobrać ceny z GG.deals dla ID ${id}`, errorGG);
+            }
+
+            wyniki.push({
                 id: parseInt(id),
                 nazwa: gra.name,
-                cena: gra.price || "Brak ceny"
-            };
-        });
+                cena: cena
+            });
+        }
+
+        polecane = wyniki;
 
     } catch (e) {
-        console.error("Mock API nie działa, ładowanie listy awaryjnej:", e);
+        console.error("Główny błąd PobierzPopularneGry, ładuję listę awaryjną:", e);
         polecane = [
             { id: 1091500, nazwa: "Cyberpunk 2077", cena: "199,00 zł" },
             { id: 1174180, nazwa: "Red Dead Redemption 2", cena: "249,00 zł" },
-            { id: 271590, nazwa: "Grand Theft Auto V", cena: "129,90 zł" },
-            { id: 271590, nazwa: "Wiedźmin 3: Dziki Gon", cena: "149,99 zł" }
+            { id: 271590, nazwa: "Grand Theft Auto V", cena: "129,90 zł" }
         ];
     }
 }
