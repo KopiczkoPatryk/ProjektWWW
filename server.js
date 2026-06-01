@@ -3,7 +3,7 @@ const cors = require('cors');
 
 const app = express();
 const PORT = 3000;
-const API_KEY = `YbDL7pP0HuGma_udF5JQMBbslZHngZgk`;
+const API_KEY = ``;
 
 app.use(cors());
 
