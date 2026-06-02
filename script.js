@@ -3,9 +3,9 @@ let koszyk = [];
 
 // Atrybuty rozwijanego menu użytkownika. Użyte w funkcji LadujWpolneElem().
 const menuRozwijaneAtrybut = [
-    { href: "#", icon: "fa-circle-user", text: "Konto"},
-    { href: "#/koszyk", icon: "fa-basket-shopping", text: "Koszyk"},
-    { href: "#", icon: "fa-arrow-right-from-bracket", text: "Wyloguj"}
+    { href: "#", icon: "fa-circle-user", text: "Konto" },
+    { href: "#/koszyk", icon: "fa-basket-shopping", text: "Koszyk" },
+    { href: "#", icon: "fa-arrow-right-from-bracket", text: "Wyloguj" }
 ];
 
 // Atrybuty menu dolnego pod paskiem wyszukiwania. Użyte w funkcji LadujWpolneElem().
@@ -89,7 +89,7 @@ async function BodyStronaGlowna() {
     const tresc = document.getElementById("tresc");
     tresc.innerHTML = `<div class="kontener"><h2>Ładowanie najlepszych ofert...</h2></div>`;
     await PobierzPopularneGry();
-    
+
     tresc.innerHTML = `
         <header class="glowny-header" id="glowny-header"></header>
 
@@ -120,7 +120,7 @@ function BodySczegolyProduktu(produktId) {
         document.getElementById("tresc").innerHTML = `<h1>Nie znaleziono produktu</h1><a href="#">Powrót do strony głównej</a>`;
         return;
     }
-    
+
     const tresc = document.getElementById("tresc");
     tresc.innerHTML = `
         <header class="glowny-header" id="glowny-header"></header>
@@ -178,17 +178,22 @@ function BodyKoszyk() {
 // Pobiera obraz z zewnętrznej strony przy użyciu SteamID i wstawia go do fragmentu HTML.
 function ZwrocBaner(id) {
     let baner = `https://cdn.akamai.steamstatic.com/steam/apps/${id}/capsule_616x353.jpg`;
-    return `<a href="#" class="baner"><img src="${baner}" alt="Baner ${id}"></a>`;
+    return `<a href="#/produkt/${id}" class="baner"><img src="${baner}" alt="Baner ${id}"></a>`;
 }
 
 // Przygotowuje strukturę kodu HTML 3 banerów reklamowych i wstawia go do sekcji o id: "banery-reklamowe".
 function WstawBanery() {
-    let kod = ZwrocBaner(1091500) + ZwrocBaner(1174180) + ZwrocBaner(271590);
+
+    let baner1 = ZwrocBaner(polecane[0].id);
+    let baner2 = ZwrocBaner(polecane[1].id);
+    let baner3 = ZwrocBaner(polecane[2].id);
+
+    let kod = baner1 + baner2 + baner3;
     document.getElementById("banery-reklamowe").innerHTML = kod;
 }
 
 // Pobiera zdjęcie okładki gry za pomocą SteamID gry z zewnętrznej strony.
-function ZwrocOkladke(id) { 
+function ZwrocOkladke(id) {
     return `https://cdn.akamai.steamstatic.com/steam/apps/${id}/library_600x900.jpg`;
 }
 
@@ -218,8 +223,8 @@ function WstawProdukty(lista) {
 // Załadowanie do <body> elementów wspólnych.
 function LadujWpolneElem() {
     const glownyHeader = document.getElementById("glowny-header");
-        if (glownyHeader) {
-            glownyHeader.innerHTML = `
+    if (glownyHeader) {
+        glownyHeader.innerHTML = `
                 <div class="pasek-gorny">
                     <div class ="kontener">
                         <a href="#" class="przekierowanie-mainpage">
@@ -246,11 +251,11 @@ function LadujWpolneElem() {
                     </div>
                 </div>            
             `
-        }
-    
+    }
+
     const dolnaSekcja = document.getElementById("dolna-sekcja");
-        if (dolnaSekcja) {
-            dolnaSekcja.innerHTML = `
+    if (dolnaSekcja) {
+        dolnaSekcja.innerHTML = `
                 <div class="kontener">
                     <div class="naglowek">
                         <h1>Taniej gier nie znajdziesz, nie no stary mówie ci.</h1>
@@ -262,18 +267,18 @@ function LadujWpolneElem() {
                     <footer>Copyright © 2026 GameStation. Wszelkie prawa zastrzeżone.</footer>
                 </div>           
             `
-        }
+    }
 
     const menuRozwijane = document.getElementById("rozwijane-menu");
-        if (menuRozwijane) {
-            menuRozwijane.innerHTML = menuRozwijaneAtrybut.map(item => `
+    if (menuRozwijane) {
+        menuRozwijane.innerHTML = menuRozwijaneAtrybut.map(item => `
                 <a href="${item.href}">
                     <i class="fa-solid ${item.icon}"></i>
                     <span>${item.text}</span>
                 </a>
             `).join("");
-        }
-        
+    }
+
     const menuKontener = document.getElementById("menu-dolne");
     if (menuKontener) {
         menuKontener.innerHTML = menuAtrybut.map(item => `
@@ -285,7 +290,7 @@ function LadujWpolneElem() {
             </li>
         `).join("");
     }
-     
+
     const MotywPrzycisk = document.getElementById("motyw-przycisk");
     if (MotywPrzycisk) {
         MotywPrzycisk.addEventListener("click", () => {
@@ -310,16 +315,16 @@ function DodajDoKoszyka(produktId) {
 // Usuwa produkt na podstawie jego ID i odświeża podstrone koszyka.
 function UsunZKoszyka(produktId) {
     const produkt = koszyk.findIndex(p => p.id === parseInt(produktId));
-    
+
     if (produkt !== -1) {
-        koszyk.splice(produkt, 1); 
-        
+        koszyk.splice(produkt, 1);
+
         const zawartosc = document.getElementById("zawartosc-koszyka");
         if (zawartosc) {
             zawartosc.innerHTML = WstawProduktKoszyk();
         }
-        
-        BodyKoszyk(); 
+
+        BodyKoszyk();
     }
 }
 
