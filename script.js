@@ -1,5 +1,6 @@
 let polecane = [];
 let koszyk = [];
+let banery = [];
 
 // Atrybuty rozwijanego menu użytkownika. Użyte w funkcji LadujWpolneElem().
 const menuRozwijaneAtrybut = [
@@ -24,31 +25,23 @@ const menuAtrybut = [
 */
 async function PobierzPopularneGry() {
     try {
-        const response = await fetch('gry.json');
-        if (!response.ok) throw new Error("Błąd ładowania Mock API");
+        const response = await fetch('http://localhost:3000/api/steam-games');
+        if (!response.ok) throw new Error(`Status: ${response.status}`);
 
         const bazaGier = await response.json();
-        const wszystkieIds = Object.keys(bazaGier);
 
-        for (let i = wszystkieIds.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [wszystkieIds[i], wszystkieIds[j]] = [wszystkieIds[j], wszystkieIds[i]];
-        }
-
-        const wylosowaneIds = wszystkieIds.slice(0, 12);
+        const wylosowaneGry = bazaGier.slice(0, 12);
         const wyniki = [];
 
-        for (const id of wylosowaneIds) {
-            const gra = bazaGier[id];
-            let cena = gra.price || "Brak ceny";
+        for (const gra of wylosowaneGry) {
+            const id = gra.appid;
+            let cena = "Brak ceny";
 
             try {
                 const responseGG = await fetch(`http://localhost:3000/api/game/${id}`);
-
                 if (responseGG.ok) {
                     const daneGG = await responseGG.json();
-
-                    if (daneGG.data[id]) {
+                    if (daneGG.data && daneGG.data[id]) {
                         const ceny = daneGG.data[id].prices;
                         const klucze = ceny.currentKeyshops;
                         const sklep = ceny.currentRetail;
@@ -61,7 +54,7 @@ async function PobierzPopularneGry() {
                     }
                 }
             } catch (errorGG) {
-                console.warn(`Nie udało się pobrać ceny z GG.deals dla ID ${id}`, errorGG);
+                console.warn(`Brak ceny dla ID ${id}`);
             }
 
             wyniki.push({
