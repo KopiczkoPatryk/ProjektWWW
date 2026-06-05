@@ -3,7 +3,7 @@ const cors = require('cors');
 
 const app = express();
 const PORT = 3000;
-const API_KEY = `WEDGmnIQmpQb_d5Weoy4GF3UFv8avjNq`;
+const API_KEY = `mCt9sn_8ET9BSvEbeQHof4dxn80RNGnS`;
 
 app.use(cors());
 
@@ -48,7 +48,7 @@ app.get('/api/steam-games', (req, res) => {
     if (bazaGier.length === 0) {
         return res.status(503).json({ error: 'Baza danych się ładuje, odśwież za chwilę.' });
     }
-    res.json(bazaGier);
+    res.json(bazaGier.slice(0,100));
 });
 
 app.listen(PORT, () => {

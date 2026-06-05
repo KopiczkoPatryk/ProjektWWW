@@ -1,15 +1,12 @@
 let polecane = [];
 let koszyk = [];
-let banery = [];
 
-// Atrybuty rozwijanego menu użytkownika. Użyte w funkcji LadujWpolneElem().
 const menuRozwijaneAtrybut = [
     { href: "#", icon: "fa-circle-user", text: "Konto" },
     { href: "#/koszyk", icon: "fa-basket-shopping", text: "Koszyk" },
     { href: "#", icon: "fa-arrow-right-from-bracket", text: "Wyloguj" }
 ];
 
-// Atrybuty menu dolnego pod paskiem wyszukiwania. Użyte w funkcji LadujWpolneElem().
 const menuAtrybut = [
     { href: "#", icon: "fa-bars", text: "Kategorie" },
     { href: "#", icon: "fa-piggy-bank", text: "Tanie gry" },
@@ -18,22 +15,18 @@ const menuAtrybut = [
     { href: "#", icon: "fa-hand-holding-dollar", text: "Prepaid" },
 ];
 
-/**
- * Pobiera bazę gier z lokalnego pliku gry.json, po czym tasuje ich Steam ID i wybiera tylko 12.
- * Aktualne ceny są odpytywane przez API GGDeals i wstawiane do zmiennej "polecane".
- * W razie błędu przypisuje do zmiennej globalnej `polecane` listę awaryjną.
-*/
+
 async function PobierzPopularneGry() {
     try {
         const response = await fetch('http://localhost:3000/api/steam-games');
         if (!response.ok) throw new Error(`Status: ${response.status}`);
 
         const bazaGier = await response.json();
-
-        const wylosowaneGry = bazaGier.slice(0, 12);
         const wyniki = [];
 
-        for (const gra of wylosowaneGry) {
+        for (const gra of bazaGier) {
+
+            if (wyniki.length >= 12) break;
             const id = gra.appid;
             let cena = "Brak ceny";
 
@@ -77,11 +70,13 @@ async function PobierzPopularneGry() {
     }
 }
 
-// Ładuje strony głównej w <body>, ale najpierw oczekuje na pobranie gier z funkcji await PobierzPopularneGry().
 async function BodyStronaGlowna() {
     const tresc = document.getElementById("tresc");
-    tresc.innerHTML = `<div class="kontener"><h2>Ładowanie najlepszych ofert...</h2></div>`;
-    await PobierzPopularneGry();
+    
+    if (polecane.length === 0) {
+        tresc.innerHTML = `<div class="kontener"><h2>Ładowanie najlepszych ofert...</h2></div>`;
+        return;
+    }
 
     tresc.innerHTML = `
         <header class="glowny-header" id="glowny-header"></header>
@@ -89,12 +84,9 @@ async function BodyStronaGlowna() {
         <div id="banery-reklamowe" class="banery-reklamowe"></div>
         <div class="jasna-kategoria">
             <div class="kategoria">
-                <h2>Polecane</h2>
+                <h2>Wyróżnione oferty</h2>
                 <div class="produkty" id="polecane"></div> 
             </div>
-        </div>
-        <div class="ciemna-kategoria">
-            <div class="kategoria"></div>
         </div>
         
         <div id="dolna-sekcja"></div>
@@ -105,7 +97,6 @@ async function BodyStronaGlowna() {
     document.getElementById("polecane").innerHTML = WstawProdukty(polecane);
 }
 
-// Ładuje template podstrony opisu produktu w <body>.
 function BodySczegolyProduktu(produktId) {
     const produkt = polecane.find(p => p.id === parseInt(produktId));
 
@@ -144,7 +135,6 @@ function BodySczegolyProduktu(produktId) {
     LadujWpolneElem();
 }
 
-// Ładuje template podstrony koszyka w <body>.
 function BodyKoszyk() {
     const tresc = document.getElementById("tresc");
 
@@ -168,15 +158,12 @@ function BodyKoszyk() {
     LadujWpolneElem();
 }
 
-// Pobiera obraz z zewnętrznej strony przy użyciu SteamID i wstawia go do fragmentu HTML.
 function ZwrocBaner(id) {
     let baner = `https://cdn.akamai.steamstatic.com/steam/apps/${id}/capsule_616x353.jpg`;
     return `<a href="#/produkt/${id}" class="baner"><img src="${baner}" alt="Baner ${id}"></a>`;
 }
 
-// Przygotowuje strukturę kodu HTML 3 banerów reklamowych i wstawia go do sekcji o id: "banery-reklamowe".
 function WstawBanery() {
-
     let baner1 = ZwrocBaner(polecane[0].id);
     let baner2 = ZwrocBaner(polecane[1].id);
     let baner3 = ZwrocBaner(polecane[2].id);
@@ -185,12 +172,10 @@ function WstawBanery() {
     document.getElementById("banery-reklamowe").innerHTML = kod;
 }
 
-// Pobiera zdjęcie okładki gry za pomocą SteamID gry z zewnętrznej strony.
 function ZwrocOkladke(id) {
     return `https://cdn.akamai.steamstatic.com/steam/apps/${id}/library_600x900.jpg`;
 }
 
-// Wstawia okładkę, nazwę i cenę produktu do fragmentu kodu HTML, a w razie jej braku wstawia placeholder.
 function WstawProdukt(id, nazwa, cena) {
     let okladka = ZwrocOkladke(id);
     let obrazekZastepczy = "https://placehold.co/600x900?text=Brak+Okładki";
@@ -203,7 +188,6 @@ function WstawProdukt(id, nazwa, cena) {
             `;
 }
 
-// Zwraca całą strukture kodu HTML produktów  
 function WstawProdukty(lista) {
     let kod = "";
     const limit = Math.min(lista.length, 12);
@@ -213,7 +197,6 @@ function WstawProdukty(lista) {
     return kod;
 }
 
-// Załadowanie do <body> elementów wspólnych.
 function LadujWpolneElem() {
     const glownyHeader = document.getElementById("glowny-header");
     if (glownyHeader) {
@@ -236,13 +219,7 @@ function LadujWpolneElem() {
                         </div>
                     </div>
                 </div>
-                <div class="pasek-dolny">
-                    <div class="kontener">
-                        <div class="kafelki">
-                            <ul id="menu-dolne"></ul>
-                        </div>
-                    </div>
-                </div>            
+                         
             `
     }
 
@@ -292,9 +269,6 @@ function LadujWpolneElem() {
     }
 }
 
-
-
-//Dodaje produkt do listy "koszyk"
 function DodajDoKoszyka(produktId) {
     const produkt = polecane.find(p => p.id == parseInt(produktId));
     if (produkt) {
@@ -305,7 +279,6 @@ function DodajDoKoszyka(produktId) {
     }
 }
 
-// Usuwa produkt na podstawie jego ID i odświeża podstrone koszyka.
 function UsunZKoszyka(produktId) {
     const produkt = koszyk.findIndex(p => p.id === parseInt(produktId));
 
@@ -321,10 +294,6 @@ function UsunZKoszyka(produktId) {
     }
 }
 
-/**Wstawia strukturę kodu HTML produktów dodanych do koszyka do podstrony koszyka.
- * W razie gdy lista "koszyk" jest pusta, Wyświetla odpowiedznią informację.
- * W strukturze kodu HTML umieszczono funkcję usuwania produktów w przycisku. 
-*/
 function WstawProduktKoszyk() {
     if (koszyk.length === 0) {
         return '<p class="koszyk-pusty">Twój koszyk jest pusty.</p>';
@@ -342,7 +311,6 @@ function WstawProduktKoszyk() {
     `).join('');
 }
 
-// Zmiana struktury <body> w zależności od URL
 function ZmianaStrony() {
     const hash = window.location.hash;
 
@@ -356,8 +324,9 @@ function ZmianaStrony() {
     }
 }
 
-// Renderowanie na stronie
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
+    ZmianaStrony();
+    await PobierzPopularneGry();
     ZmianaStrony();
     window.addEventListener("hashchange", ZmianaStrony);
 });
