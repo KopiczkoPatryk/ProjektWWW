@@ -46,7 +46,7 @@
 }
 
 .produkt {
-    flex: 1 1 calc(25% - 20px);
+    flex: 0 1 calc(25% - 20px);
     min-width: 200px;
     object-fit: cover;
     padding: 7px;
@@ -66,6 +66,18 @@
     object-fit: cover;
     border-radius: 10px;
 }
+
+.kategoria-wyszukiwania {
+    max-width: 1200px;
+    min-height: 70vh;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 40px 15px;
+}
+
+
 
 @media (min-width: 1024px) {
     .baner.duzy {

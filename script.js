@@ -158,6 +158,40 @@ function BodyKoszyk() {
     LadujWpolneElem();
 }
 
+function BodyWynikiWyszukiwania(fraza) {
+    const tresc = document.getElementById("tresc");
+    const czystaFraza = decodeURIComponent(fraza).toLowerCase().trim();
+
+    // Filtrujemy gry z pobranej wcześniej tablicy
+    const znalezione = polecane.filter(gra => 
+        gra.nazwa.toLowerCase().includes(czystaFraza)
+    );
+
+    tresc.innerHTML = `
+        <header class="glowny-header" id="glowny-header"></header>
+
+        <div class="jasna-kategoria">
+            <div class="kategoria-wyszukiwania">
+                <h2>Wyniki wyszukiwania dla: "${decodeURIComponent(fraza)}"</h2>
+                <div class="produkty" id="wyniki-szukania">
+                    ${znalezione.length > 0 
+                        ? WstawProdukty(znalezione) 
+                        : '<p class="koszyk-pusty">Nie znaleziono żadnych gier spełniających kryteria.</p>'
+                    }
+                </div> 
+            </div>
+        </div>
+
+        <div id="dolna-sekcja"></div>
+    `;
+
+    LadujWpolneElem();
+
+    // Wpisujemy szukaną frazę z powrotem do inputa, żeby użytkownik ją widział
+    const input = document.querySelector(".wyszukiwarka input");
+    if (input) input.value = decodeURIComponent(fraza);
+}
+
 function ZwrocBaner(id) {
     let baner = `https://cdn.akamai.steamstatic.com/steam/apps/${id}/capsule_616x353.jpg`;
     return `<a href="#/produkt/${id}" class="baner"><img src="${baner}" alt="Baner ${id}"></a>`;
@@ -267,6 +301,20 @@ function LadujWpolneElem() {
             document.body.classList.toggle("tryb-ciemny");
         });
     }
+    
+    const formularz = document.querySelector(".wyszukiwarka");
+    if (formularz) {
+        formularz.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const fraza = formularz.querySelector("input").value.trim();
+            
+            if (fraza === "") {
+                window.location.hash = "#";
+            } else {
+                window.location.hash = `#/szukaj?q=${encodeURIComponent(fraza)}`;
+            }
+        });
+    }
 }
 
 function DodajDoKoszyka(produktId) {
@@ -319,6 +367,10 @@ function ZmianaStrony() {
         BodySczegolyProduktu(id);
     } else if (hash === "#/koszyk") {
         BodyKoszyk();
+    } else if (hash.startsWith("#/szukaj")) {
+        const params = new URLSearchParams(hash.split("?")[1]);
+        const fraza = params.get("q") || "";
+        BodyWynikiWyszukiwania(fraza);
     } else {
         BodyStronaGlowna();
     }
