@@ -1,42 +1,12 @@
-// Przycisk zmiany motywu
-const MotywPrzycisk = document.getElementById("motyw-przycisk")
-function ZmienMotyw() {
-    document.body.classList.toggle("tryb-ciemny");
-}
+let polecane = [];
+let koszyk = [];
 
-MotywPrzycisk.addEventListener("click", ZmienMotyw);
-
-// Przechwytywanie i wstawianie banerów z zewnętrznej strony.
-function ZwrocBaner(id) {
-    let baner = `https://cdn.akamai.steamstatic.com/steam/apps/${id}/capsule_616x353.jpg`;
-    let response = `<a href="#" class="baner">
-            <img src="${baner}" alt="Baner ${id}">
-        </a>`;
-    return response;
-}
-
-function WstawBanery() {
-    let kod = ZwrocBaner(730) + ZwrocBaner(570) + ZwrocBaner(440);
-    document.getElementById("banery-reklamowe").innerHTML = kod;
-
-}
-document.addEventListener('DOMContentLoaded', WstawBanery);
-
-function ZwrocOkladke(id) {
-    let okladka = `https://cdn.akamai.steamstatic.com/steam/apps/${id}/library_600x900.jpg`;
-    return okladka;
-}
-
-// Optymalizacja/minimalizacja HTML
-
-// Atrybuty rozwijanego menu
 const menuRozwijaneAtrybut = [
-    { href: "#", icon: "fa-circle-user", text: "Konto"},
-    { href: "#", icon: "fa-basket-shopping", text: "Koszyk"},
-    { href: "#", icon: "fa-arrow-right-from-bracket", text: "Wyloguj"}
+    { href: "#", icon: "fa-circle-user", text: "Konto" },
+    { href: "#/koszyk", icon: "fa-basket-shopping", text: "Koszyk" },
+    { href: "#", icon: "fa-arrow-right-from-bracket", text: "Wyloguj" }
 ];
 
-// Atrybuty menu dolnego
 const menuAtrybut = [
     { href: "#", icon: "fa-bars", text: "Kategorie" },
     { href: "#", icon: "fa-piggy-bank", text: "Tanie gry" },
@@ -45,49 +15,274 @@ const menuAtrybut = [
     { href: "#", icon: "fa-hand-holding-dollar", text: "Prepaid" },
 ];
 
+
+async function PobierzPopularneGry() {
+    try {
+        const response = await fetch('http://localhost:3000/api/steam-games');
+        if (!response.ok) throw new Error(`Status: ${response.status}`);
+
+        const bazaGier = await response.json();
+        const wyniki = [];
+
+        for (const gra of bazaGier) {
+
+            if (wyniki.length >= 12) break;
+            const id = gra.appid;
+            let cena = "Brak ceny";
+
+            try {
+                const responseGG = await fetch(`http://localhost:3000/api/game/${id}`);
+                if (responseGG.ok) {
+                    const daneGG = await responseGG.json();
+                    if (daneGG.data && daneGG.data[id]) {
+                        const ceny = daneGG.data[id].prices;
+                        const klucze = ceny.currentKeyshops;
+                        const sklep = ceny.currentRetail;
+
+                        if (klucze && klucze != "null") {
+                            cena = `${klucze} PLN`;
+                        } else if (sklep && sklep != "null") {
+                            cena = `${sklep} PLN`;
+                        }
+                    }
+                }
+            } catch (errorGG) {
+                console.warn(`Brak ceny dla ID ${id}`);
+            }
+
+            wyniki.push({
+                id: parseInt(id),
+                nazwa: gra.name,
+                cena: cena
+            });
+        }
+
+        polecane = wyniki;
+
+    } catch (e) {
+        console.error("Główny błąd PobierzPopularneGry, ładuję listę awaryjną:", e);
+        polecane = [
+            { id: 1091500, nazwa: "Cyberpunk 2077", cena: "199,00 zł" },
+            { id: 1174180, nazwa: "Red Dead Redemption 2", cena: "249,00 zł" },
+            { id: 271590, nazwa: "Grand Theft Auto V", cena: "129,90 zł" },
+            { id: 1245620, nazwa: "Elden Ring", cena: "249,00 zł" }
+        ];
+    }
+}
+
+async function BodyStronaGlowna() {
+    const tresc = document.getElementById("tresc");
+    
+    if (polecane.length === 0) {
+        tresc.innerHTML = `<div class="kontener"><h2>Ładowanie najlepszych ofert...</h2></div>`;
+        return;
+    }
+
+    tresc.innerHTML = `
+        <header class="glowny-header" id="glowny-header"></header>
+
+        <div id="banery-reklamowe" class="banery-reklamowe"></div>
+        <div class="jasna-kategoria">
+            <div class="kategoria">
+                <h2>Wyróżnione oferty</h2>
+                <div class="produkty" id="polecane"></div> 
+            </div>
+        </div>
+        
+        <div id="dolna-sekcja"></div>
+    `;
+
+    LadujWpolneElem();
+    WstawBanery();
+    document.getElementById("polecane").innerHTML = WstawProdukty(polecane);
+}
+
+function BodySczegolyProduktu(produktId) {
+    const produkt = polecane.find(p => p.id === parseInt(produktId));
+
+    if (!produkt) {
+        document.getElementById("tresc").innerHTML = `<h1>Nie znaleziono produktu</h1><a href="#">Powrót do strony głównej</a>`;
+        return;
+    }
+
+    const tresc = document.getElementById("tresc");
+    tresc.innerHTML = `
+        <header class="glowny-header" id="glowny-header"></header>
+
+        <div class="kontener">
+            <div class="karta-produktu">
+                <div class="szczegoly-produktu">
+                    <div class="okladka-duza">
+                        <img src="${ZwrocOkladke(produkt.id)}" alt="${produkt.nazwa}">
+                    </div>
+                    <div class="info-produktu">
+                        <h1>${produkt.nazwa}</h1>
+                        <p class="cena">${produkt.cena}</p>
+                        <p>To jest szczegółowy opis gry ${produkt.nazwa}. Kupując u nas masz gwarancję najniższej ceny oraz błyskawicznej dostawy klucza cyfrowego!</p>
+                        <button>Kup teraz</button>
+                        <button id="przycisk-koszyk" onclick="DodajDoKoszyka(${produkt.id})">Dodaj do koszyka</button>
+                    </div>
+                </div>
+                <div class="info-stopka">
+                    <a class="przycisk-powrot" href="#"><i class="fa-solid fa-arrow-left"></i> Powrót do sklepu</a>
+                </div>
+            </div>
+        </div>
+
+        <div id="dolna-sekcja"></div>
+    `;
+
+    LadujWpolneElem();
+}
+
+function BodyKoszyk() {
+    const tresc = document.getElementById("tresc");
+
+    tresc.innerHTML = `
+        <header class="glowny-header" id="glowny-header"></header>
+        <div class="kontener">
+            <div class="koszyk-kontener">
+                <h1>Twój Koszyk</h1>
+                <div id="zawartosc-koszyka">
+                    ${WstawProduktKoszyk()}
+                </div>
+                <div class="koszyk-stopka">
+                    <a class="przycisk-powrot" href="#"><i class="fa-solid fa-arrow-left"></i> Powrót do sklepu</a>
+                    ${koszyk.length > 0 ? '<button class="przycisk-kup">Przejdź do płatności</button>' : ''}
+                </div>
+            </div>
+        </div>
+        
+        <div id="dolna-sekcja"></div>
+    `
+    LadujWpolneElem();
+}
+
+function BodyWynikiWyszukiwania(fraza) {
+    const tresc = document.getElementById("tresc");
+    const czystaFraza = decodeURIComponent(fraza).toLowerCase().trim();
+
+    // Filtrujemy gry z pobranej wcześniej tablicy
+    const znalezione = polecane.filter(gra => 
+        gra.nazwa.toLowerCase().includes(czystaFraza)
+    );
+
+    tresc.innerHTML = `
+        <header class="glowny-header" id="glowny-header"></header>
+
+        <div class="jasna-kategoria">
+            <div class="kategoria-wyszukiwania">
+                <h2>Wyniki wyszukiwania dla: "${decodeURIComponent(fraza)}"</h2>
+                <div class="produkty" id="wyniki-szukania">
+                    ${znalezione.length > 0 
+                        ? WstawProdukty(znalezione) 
+                        : '<p class="koszyk-pusty">Nie znaleziono żadnych gier spełniających kryteria.</p>'
+                    }
+                </div> 
+            </div>
+        </div>
+
+        <div id="dolna-sekcja"></div>
+    `;
+
+    LadujWpolneElem();
+
+    // Wpisujemy szukaną frazę z powrotem do inputa, żeby użytkownik ją widział
+    const input = document.querySelector(".wyszukiwarka input");
+    if (input) input.value = decodeURIComponent(fraza);
+}
+
+function ZwrocBaner(id) {
+    let baner = `https://cdn.akamai.steamstatic.com/steam/apps/${id}/capsule_616x353.jpg`;
+    return `<a href="#/produkt/${id}" class="baner"><img src="${baner}" alt="Baner ${id}"></a>`;
+}
+
+function WstawBanery() {
+    let baner1 = ZwrocBaner(polecane[0].id);
+    let baner2 = ZwrocBaner(polecane[1].id);
+    let baner3 = ZwrocBaner(polecane[2].id);
+
+    let kod = baner1 + baner2 + baner3;
+    document.getElementById("banery-reklamowe").innerHTML = kod;
+}
+
+function ZwrocOkladke(id) {
+    return `https://cdn.akamai.steamstatic.com/steam/apps/${id}/library_600x900.jpg`;
+}
+
 function WstawProdukt(id, nazwa, cena) {
     let okladka = ZwrocOkladke(id);
-    let response = `<div class="produkt">
-                    <img src="${okladka}" alt="Cyberpunk 2077">
-                    <h3>${nazwa}</h3>
-                    <p class="cena">${cena}</p>
-                </div>`;
-    return response;
+    let obrazekZastepczy = "https://placehold.co/600x900?text=Brak+Okładki";
+    return `
+            <div class="produkt" style="cursor: pointer;" onclick="window.location.hash='#/produkt/${id}'">
+                <img src="${okladka}" alt="${nazwa}" onerror="this.onerror=null; this.src='${obrazekZastepczy}';">
+                <h3>${nazwa}</h3>
+                <p class="cena">${cena}</p>
+            </div>
+            `;
 }
-let polecane = [
-    { id: 730, nazwa: "Counter-Strike: Global Offensive", cena: "Darmowa" },
-    { id: 570, nazwa: "Dota 2", cena: "Darmowa" },
-    { id: 440, nazwa: "Team Fortress 2", cena: "Darmowa" },
-    { id: 1091500, nazwa: "Cyberpunk 2077", cena: "199,99 zł" },
-    { id: 1174180, nazwa: "Red Dead Redemption 2", cena: "249,99 zł" },
-    { id: 271590, nazwa: "Grand Theft Auto V", cena: "99,99 zł" },
-    { id: 292030, nazwa: "The Witcher 3: Wild Hunt", cena: "89,99 zł" },
-    { id: 578080, nazwa: "PLAYERUNKNOWN'S BATTLEGROUNDS", cena: "89,99 zł" }
-]
+
 function WstawProdukty(lista) {
     let kod = "";
-    for (let i = 0; i < 5; i++) {
+    const limit = Math.min(lista.length, 12);
+    for (let i = 0; i < limit; i++) {
         kod += WstawProdukt(lista[i].id, lista[i].nazwa, lista[i].cena);
     }
     return kod;
 }
-function WstawPolecane(polecane) {
-    document.getElementById("polecane").innerHTML = WstawProdukty(polecane);
-}
 
-// Renderowanie na stronie
-document.addEventListener("DOMContentLoaded", () => {
-    
+function LadujWpolneElem() {
+    const glownyHeader = document.getElementById("glowny-header");
+    if (glownyHeader) {
+        glownyHeader.innerHTML = `
+                <div class="pasek-gorny">
+                    <div class ="kontener">
+                        <a href="#" class="przekierowanie-mainpage">
+                            <img src="logo.png" width="80" height="80" alt="GameStation - Strona Główna" class="logo-img">
+                        </a>
+                        <form class="wyszukiwarka">
+                            <input type="text" placeholder="Wyszukaj..">
+                            <button type="submit">Szukaj</button>
+                        </form>
+                        <div class="konto-menu">
+                            <button><span>User</span></button>
+                            <div class="rozwijane-menu" id="rozwijane-menu"></div>
+                        </div>
+                        <div class="konto-menu">
+                            <Button id="motyw-przycisk"><span>Motyw</span></Button>
+                        </div>
+                    </div>
+                </div>
+                                 
+            `
+    }
+
+    const dolnaSekcja = document.getElementById("dolna-sekcja");
+    if (dolnaSekcja) {
+        dolnaSekcja.innerHTML = `
+                <div class="kontener">
+                    <div class="naglowek">
+                        <h1>Taniej gier nie znajdziesz, nie no stary mówie ci.</h1>
+                        <h2>No chyba, że wujek Gaben powie inaczej...</h2>
+                    </div>
+                </div>
+
+                <div class="stopka">
+                    <footer>Copyright © 2026 GameStation. Wszelkie prawa zastrzeżone. | <a href="#/zglos-blad" class="link-blad">Zgłoś błąd w aplikacji</a></footer>
+                </div>            
+            `
+    }
+
     const menuRozwijane = document.getElementById("rozwijane-menu");
     if (menuRozwijane) {
         menuRozwijane.innerHTML = menuRozwijaneAtrybut.map(item => `
-            <a href="${item.href}">
-                <i class="fa-solid ${item.icon}"></i>
-                <span>${item.text}</span>
-            </a>
-        `).join("");
+                <a href="${item.href}">
+                    <i class="fa-solid ${item.icon}"></i>
+                    <span>${item.text}</span>
+                </a>
+            `).join("");
     }
-    
+
     const menuKontener = document.getElementById("menu-dolne");
     if (menuKontener) {
         menuKontener.innerHTML = menuAtrybut.map(item => `
@@ -99,6 +294,148 @@ document.addEventListener("DOMContentLoaded", () => {
             </li>
         `).join("");
     }
-    WstawPolecane(polecane);
-});
 
+    const MotywPrzycisk = document.getElementById("motyw-przycisk");
+    if (MotywPrzycisk) {
+        MotywPrzycisk.addEventListener("click", () => {
+            document.body.classList.toggle("tryb-ciemny");
+        });
+    }
+    
+    const formularz = document.querySelector(".wyszukiwarka");
+    if (formularz) {
+        formularz.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const fraza = formularz.querySelector("input").value.trim();
+            
+            if (fraza === "") {
+                window.location.hash = "#";
+            } else {
+                window.location.hash = `#/szukaj?q=${encodeURIComponent(fraza)}`;
+            }
+        });
+    }
+}
+
+function DodajDoKoszyka(produktId) {
+    const produkt = polecane.find(p => p.id == parseInt(produktId));
+    if (produkt) {
+        koszyk.push(produkt);
+        alert("Dodano produkt do koszyka.")
+    } else {
+        alert("Nie udało się dodać produktu.")
+    }
+}
+
+function UsunZKoszyka(produktId) {
+    const produkt = koszyk.findIndex(p => p.id === parseInt(produktId));
+
+    if (produkt !== -1) {
+        koszyk.splice(produkt, 1);
+
+        const zawartosc = document.getElementById("zawartosc-koszyka");
+        if (zawartosc) {
+            zawartosc.innerHTML = WstawProduktKoszyk();
+        }
+
+        BodyKoszyk();
+    }
+}
+
+function WstawProduktKoszyk() {
+    if (koszyk.length === 0) {
+        return '<p class="koszyk-pusty">Twój koszyk jest pusty.</p>';
+    }
+
+    return koszyk.map(gra => `
+        <div class="koszyk-element">
+            <div class="koszyk-produkt-info">
+                <img src="${ZwrocOkladke(gra.id)}" alt="${gra.nazwa}" class="koszyk-okladka">
+                <span class="koszyk-nazwa">${gra.nazwa}</span>
+            </div>
+            <span class="koszyk-cena">${gra.cena}</span>
+            <button class="usun-z-koszyka" onclick="UsunZKoszyka(${gra.id})"><i class="fa-solid fa-trash"></i></button>
+        </div>
+    `).join('');
+}
+
+function ZmianaStrony() {
+    const hash = window.location.hash;
+
+    if (hash.startsWith("#/produkt/")) {
+        const id = hash.split("/")[2];
+        BodySczegolyProduktu(id);
+    } else if (hash === "#/koszyk") {
+        BodyKoszyk();
+    } else if (hash === "#/zglos-blad") {
+        BodyZglosBlad();
+    } else if (hash.startsWith("#/szukaj")) {
+        const params = new URLSearchParams(hash.split("?")[1]);
+        const fraza = params.get("q") || "";
+        BodyWynikiWyszukiwania(fraza);
+    } else {
+        BodyStronaGlowna();
+    }
+}
+function BodyZglosBlad() {
+    const tresc = document.getElementById("tresc");
+
+    tresc.innerHTML = `
+        <header class="glowny-header" id="glowny-header"></header>
+        <div class="kontener">
+            <div class="koszyk-kontener formularz-kontener">
+                <h1>Zgłoś błąd</h1>
+                <form id="formularz-bledu" class="formularz-bledu">
+                    
+                    <div class="form-grupa">
+                        <label for="zgloszenie-email">Twój E-mail:</label>
+                        <input type="email" id="zgloszenie-email" required placeholder="np. jan@kowalski.pl">
+                    </div>
+
+                    <div class="form-grupa">
+                        <label for="zgloszenie-tytul">Tytuł zgłoszenia:</label>
+                        <input type="text" id="zgloszenie-tytul" required placeholder="Co nie działa?">
+                    </div>
+
+                    <div class="form-grupa">
+                        <label for="zgloszenie-opis">Opis błędu:</label>
+                        <textarea id="zgloszenie-opis" required rows="5" placeholder="Opisz szczegółowo swój problem..."></textarea>
+                    </div>
+
+                    <button type="submit" class="przycisk-kup przycisk-wyslij">Wyślij zgłoszenie</button>
+                </form>
+            </div>
+        </div>
+        <div id="dolna-sekcja"></div>
+    `;
+
+    LadujWpolneElem();
+    ObslugaFormularzaBledu();
+}
+function ObslugaFormularzaBledu() {
+    const form = document.getElementById("formularz-bledu");
+    if (!form) return;
+
+    form.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        const emailInput = document.getElementById("zgloszenie-email").value.trim();
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        
+        if (!emailRegex.test(emailInput)) {
+            alert("Podany adres e-mail jest nieprawidłowy!");
+            return;
+        }
+
+        alert("Dziękujemy, Twoje zgłoszenie nie zostanie rozpatrzone.");
+        form.reset();
+        window.location.hash = "#";
+    });
+}
+
+document.addEventListener("DOMContentLoaded", async () => {
+    ZmianaStrony();
+    await PobierzPopularneGry();
+    ZmianaStrony();
+    window.addEventListener("hashchange", ZmianaStrony);
+});

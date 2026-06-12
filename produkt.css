@@ -1,0 +1,117 @@
+.karta-produktu {
+    background: var(--glowny-jasny); 
+    margin-top: 40px; 
+    padding: 30px;
+    border-radius: 8px;
+}
+
+.szczegoly-produktu {
+    display: flex; 
+    align-items: center;
+    gap: 50px; 
+}
+
+.okladka-duza {
+    max-width: 300px; 
+}
+
+.info-produktu h1{
+    font-size: 2.5rem; 
+    margin-bottom: 20px;
+}
+.info-produktu .cena{
+    font-size: 1.8rem; 
+    color: #ffcc00; 
+    font-weight: bold; 
+    margin-bottom: 20px;
+}
+
+.info-produktu p{
+    margin-bottom: 30px; 
+    line-height: 1.6;
+}
+
+.info-produktu button{
+    padding: 15px 30px; 
+    font-size: 1.2rem; 
+    background: var(--glowny-ciemny);
+    border: none; 
+    color: white; 
+    border-radius: 5px; 
+    cursor: pointer;
+    transition: background 0.2s ease;
+    margin-right: 10px;
+}
+
+.info-produktu button:hover{
+    padding: 15px 30px; 
+    font-size: 1.2rem; 
+    background: var(--glowny-jasniejszy); 
+    border: none; 
+    color: white; 
+    border-radius: 5px; 
+    cursor: pointer;
+}
+
+.info-stopka {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 2px solid #ffffff;
+}
+
+.przycisk-powrot {
+    margin: 0 auto;
+    padding: 20px; 
+    text-decoration: none;
+}
+
+@media (max-width: 768px) {
+    .szczegoly-produktu {
+        flex-direction: column; 
+        gap: 25px;              
+        text-align: center;     
+    }
+
+    .okladka-duza {
+        max-width: 240px;       
+        margin: 0 auto;         
+    }
+
+    .okladka-duza img {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 2 / 3;    
+        object-fit: cover;
+    }
+
+    .info-produktu h1 {
+        font-size: 1.8rem;      
+        margin-bottom: 10px;
+    }
+
+    .info-produktu .cena {
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+    }
+
+    .info-produktu p {
+        font-size: 0.95rem;
+        margin-bottom: 20px;
+        text-align: justify;    
+    }
+
+    .info-produktu button {
+        width: 100%;           
+        margin-bottom: 10px;    
+        padding: 12px 20px;     
+        font-size: 1.1rem;
+    }
+    
+    .karta-produktu {
+        padding: 20px 15px;     
+        margin-top: 20px;
+    }
+
+}
