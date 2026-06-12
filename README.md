@@ -38,5 +38,5 @@ Użyte technologie:
 -Java Script
 
 Uruchomienie projektu:
--Upewnij się, że twoje lokalne API działa pod adresem "http://localhost:3000".
+-Aby uruchomić serwer użyj komendy node server.js
 -Uruchom stronę za pomocą rozszerzenia Live Server.
