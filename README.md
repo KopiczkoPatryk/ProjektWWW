@@ -5,11 +5,12 @@ Głównym celem projektu GameStation jest zaprojektowanie i wdrożenie nowoczesn
 Witryna została stworzona z myślą o zapewnieniu maksymalnej szybkości działania, płynności przejść pomiędzy sekcjami oraz pełnej responsywności, odpowiadając na współczesne standardy projektowania aplikacji webowych (UX/UI).
 
 Cele Szczegółowe:
-Optymalizacja Cen: Strona ma na celu konsolidację danych o cenach gier z różnych źródeł (sklepy oficjalne oraz alternatywne platformy handlowe), prezentując użytkownikowi najbardziej ekonomiczne oferty w czasie rzeczywistym.
 
-Intuicyjna Ścieżka Zakupowa: Skrócenie i uproszczenie procesu wyboru gry poprzez wdrożenie dynamicznego systemu koszyka  oraz czytelnych kart produktów.
+-Optymalizacja Cen: Strona ma na celu konsolidację danych o cenach gier z różnych źródeł (sklepy oficjalne oraz alternatywne platformy handlowe), prezentując użytkownikowi najbardziej ekonomiczne oferty w czasie rzeczywistym.
 
-Personalizacja Interfejsu: Implementacja mechanizmu zmiany motywu graficznego (Dark/Light Mode), redukującego zmęczenie wzroku podczas nocnych sesji przeglądania ofert.
+-Intuicyjna Ścieżka Zakupowa: Skrócenie i uproszczenie procesu wyboru gry poprzez wdrożenie dynamicznego systemu koszyka  oraz czytelnych kart produktów.
+
+-Personalizacja Interfejsu: Implementacja mechanizmu zmiany motywu graficznego (Dark/Light Mode), redukującego zmęczenie wzroku podczas nocnych sesji przeglądania ofert.
 
 1. Widok strony głównej.
 <img width="1919" height="950" alt="cfe4bbf4-3c99-4ee3-9549-1dbdbe3d534f" src="https://github.com/user-attachments/assets/f4bb25c9-b615-49eb-aa88-3b7bb6c856b3" />
