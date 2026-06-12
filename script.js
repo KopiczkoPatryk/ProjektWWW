@@ -253,7 +253,7 @@ function LadujWpolneElem() {
                         </div>
                     </div>
                 </div>
-                         
+                                 
             `
     }
 
@@ -268,8 +268,8 @@ function LadujWpolneElem() {
                 </div>
 
                 <div class="stopka">
-                    <footer>Copyright © 2026 GameStation. Wszelkie prawa zastrzeżone.</footer>
-                </div>           
+                    <footer>Copyright © 2026 GameStation. Wszelkie prawa zastrzeżone. | <a href="#/zglos-blad" class="link-blad">Zgłoś błąd w aplikacji</a></footer>
+                </div>            
             `
     }
 
@@ -367,6 +367,8 @@ function ZmianaStrony() {
         BodySczegolyProduktu(id);
     } else if (hash === "#/koszyk") {
         BodyKoszyk();
+    } else if (hash === "#/zglos-blad") {
+        BodyZglosBlad();
     } else if (hash.startsWith("#/szukaj")) {
         const params = new URLSearchParams(hash.split("?")[1]);
         const fraza = params.get("q") || "";
@@ -374,6 +376,61 @@ function ZmianaStrony() {
     } else {
         BodyStronaGlowna();
     }
+}
+function BodyZglosBlad() {
+    const tresc = document.getElementById("tresc");
+
+    tresc.innerHTML = `
+        <header class="glowny-header" id="glowny-header"></header>
+        <div class="kontener">
+            <div class="koszyk-kontener formularz-kontener">
+                <h1>Zgłoś błąd</h1>
+                <form id="formularz-bledu" class="formularz-bledu">
+                    
+                    <div class="form-grupa">
+                        <label for="zgloszenie-email">Twój E-mail:</label>
+                        <input type="email" id="zgloszenie-email" required placeholder="np. jan@kowalski.pl">
+                    </div>
+
+                    <div class="form-grupa">
+                        <label for="zgloszenie-tytul">Tytuł zgłoszenia:</label>
+                        <input type="text" id="zgloszenie-tytul" required placeholder="Co nie działa?">
+                    </div>
+
+                    <div class="form-grupa">
+                        <label for="zgloszenie-opis">Opis błędu:</label>
+                        <textarea id="zgloszenie-opis" required rows="5" placeholder="Opisz szczegółowo swój problem..."></textarea>
+                    </div>
+
+                    <button type="submit" class="przycisk-kup przycisk-wyslij">Wyślij zgłoszenie</button>
+                </form>
+            </div>
+        </div>
+        <div id="dolna-sekcja"></div>
+    `;
+
+    LadujWpolneElem();
+    ObslugaFormularzaBledu();
+}
+function ObslugaFormularzaBledu() {
+    const form = document.getElementById("formularz-bledu");
+    if (!form) return;
+
+    form.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        const emailInput = document.getElementById("zgloszenie-email").value.trim();
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        
+        if (!emailRegex.test(emailInput)) {
+            alert("Podany adres e-mail jest nieprawidłowy!");
+            return;
+        }
+
+        alert("Dziękujemy, Twoje zgłoszenie nie zostanie rozpatrzone.");
+        form.reset();
+        window.location.hash = "#";
+    });
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
