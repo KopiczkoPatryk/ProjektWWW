@@ -264,5 +264,13 @@ body {
         padding: 0 15px;
         font-size: 0.9rem;
     }
-
+    .formularz-kontener {
+    max-width: 500px;
+    margin: 40px auto;
+    background-color: var(--glowny-jasny);
+    border: 1px solid var(--tekst-glowny);
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
 }
+
